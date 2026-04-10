@@ -839,18 +839,17 @@ footer {
 
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
-  .hero { padding: 56px 24px 48px; }
+  .hero { padding: 56px 20px 44px; }
   .container {
     width: 100%;
     max-width: 100%;
-    padding: 0 16px;
+    padding: 0 14px;
     margin-left: auto;
     margin-right: auto;
   }
-  section { padding: 48px 0; }
+  section { padding: 44px 0; }
   .detail-stats-grid { grid-template-columns: 1fr; }
-  .forecast-grid { grid-template-columns: 1fr; }
-  .insights-grid { grid-template-columns: 1fr 1fr; }
+  .forecast-grid, .model-grid, .insights-grid { grid-template-columns: 1fr; }
   .chart-controls {
     flex-direction: column;
     align-items: center;
@@ -865,13 +864,31 @@ footer {
     margin-left: auto;
     margin-right: auto;
   }
-  .section-label, .section-title, .section-desc, .chart-note { text-align: center; }
-  .section-desc, .hero-subtitle, .hero-note { max-width: 100%; margin-left: auto; margin-right: auto; }
+  .section-label,
+  .section-title,
+  .section-desc,
+  .chart-note,
+  .hero-subtitle,
+  .hero-note,
+  .model-section .section-title,
+  .model-section .section-desc {
+    text-align: center;
+  }
+  .section-title {
+    font-size: clamp(22px, 7vw, 30px);
+    line-height: 1.18;
+  }
+  .section-desc, .hero-subtitle, .hero-note {
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .section-desc { font-size: 14px; margin-bottom: 26px; }
   .chart-wrapper {
     width: 100%;
     max-width: 100%;
     margin: 0 auto;
-    padding: 20px 14px 18px;
+    padding: 20px 12px 16px;
     height: 360px;
   }
   #mainChart {
@@ -895,11 +912,99 @@ footer {
     margin-left: auto;
     margin-right: auto;
   }
-  .model-grid { grid-template-columns: 1fr; }
-  .stats-table-wrap {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+  .forecast-card,
+  .model-card {
+    padding: 18px 14px;
+    border-radius: 14px;
   }
+  .model-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .model-card-title {
+    font-size: 16px;
+    line-height: 1.25;
+    gap: 8px;
+    align-items: flex-start;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+  }
+  .model-card-title .icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 7px;
+    font-size: 12px;
+    margin-top: 1px;
+  }
+  .method-step { gap: 10px; padding: 10px 0; }
+  .method-num { min-width: 20px; font-size: 10px; }
+  .method-title { font-size: 13px; }
+  .method-desc { font-size: 11.5px; line-height: 1.45; }
+  .model-row {
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+    align-items: start;
+    padding: 10px 0;
+    font-size: 12px;
+  }
+  .model-row-label, .model-row-value { font-size: 12px; }
+  .model-row-value { text-align: right; }
+  .stats-table-wrap {
+    margin-top: 18px;
+    overflow: visible;
+  }
+  .stats-table,
+  .stats-table thead,
+  .stats-table tbody,
+  .stats-table tr,
+  .stats-table th,
+  .stats-table td {
+    display: block;
+    width: 100%;
+  }
+  .stats-table thead { display: none; }
+  .stats-table tbody {
+    display: grid;
+    gap: 12px;
+  }
+  .stats-table tbody tr {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 10px 12px;
+  }
+  .stats-table tbody td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+  }
+  .stats-table tbody td:last-child { border-bottom: none; }
+  .stats-table tbody td::before {
+    content: attr(data-label);
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    flex-shrink: 0;
+  }
+  .stats-table tbody td:first-child {
+    font-size: 13px;
+    align-items: flex-start;
+  }
+  .major-dot-cell {
+    justify-content: flex-end;
+    text-align: right;
+    gap: 6px;
+  }
+  .forecast-major-title { font-size: 18px; }
+  .forecast-score { font-size: 40px; }
+  .forecast-winner { font-size: 20px; }
 }
 @media (max-width: 460px) {
   .insights-grid { grid-template-columns: 1fr; }
@@ -2114,13 +2219,13 @@ const statsRows = [
 ];
 document.getElementById('statsTableBody').innerHTML = statsRows.map(r=>`
   <tr>
-    <td><div class="major-dot-cell"><div class="major-dot" style="background:${r.color}"></div>${r.name}</div></td>
-    <td class="mono">${r.stats.mean}</td>
-    <td class="mono">${r.stats.median}</td>
-    <td class="mono">${r.stats.std}</td>
-    <td class="mono">${r.stats.recent5}</td>
-    <td class="mono">${r.stats.min}</td>
-    <td class="mono">${r.stats.max}</td>
+    <td data-label="Major"><div class="major-dot-cell"><div class="major-dot" style="background:${r.color}"></div>${r.name}</div></td>
+    <td class="mono" data-label="Mean">${r.stats.mean}</td>
+    <td class="mono" data-label="Median">${r.stats.median}</td>
+    <td class="mono" data-label="Std Dev">${r.stats.std}</td>
+    <td class="mono" data-label="5-Yr Avg">${r.stats.recent5}</td>
+    <td class="mono" data-label="Low">${r.stats.min}</td>
+    <td class="mono" data-label="High">${r.stats.max}</td>
   </tr>
 `).join('');
 console.log('Historical Statistics by Major rendered', statsRows.length);
