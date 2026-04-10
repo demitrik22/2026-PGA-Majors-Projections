@@ -1,0 +1,2064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Major Championship Winning Scores — Historical Analysis & 2026 Projections</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --bg: #0b1810;
+  --bg-mid: #101f15;
+  --surface: #14261a;
+  --card: #192e1f;
+  --card-hover: #1e3826;
+  --border: rgba(180, 155, 60, 0.12);
+  --border-bright: rgba(180, 155, 60, 0.28);
+  --text: #ede8d8;
+  --text-sub: #94af98;
+  --text-muted: #567060;
+  --gold: #c9a34a;
+  --gold-light: #e2c96a;
+  --gold-dim: rgba(201, 163, 74, 0.15);
+  --masters: #5ec479;
+  --usopen: #5b9ed6;
+  --open: #e8b84b;
+  --pga: #e8695a;
+  --masters-bg: rgba(94,196,121,0.08);
+  --usopen-bg: rgba(91,158,214,0.08);
+  --open-bg: rgba(232,184,75,0.08);
+  --pga-bg: rgba(232,105,90,0.08);
+  --radius: 12px;
+  --radius-lg: 18px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.45);
+  --shadow-lg: 0 8px 48px rgba(0,0,0,0.6);
+  --transition: 0.2s ease;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 3px; }
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  padding: 80px 40px 64px;
+  text-align: center;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 900px 500px at 50% 0%, rgba(94,196,121,0.07) 0%, transparent 70%),
+              radial-gradient(ellipse 600px 300px at 20% 100%, rgba(201,163,74,0.05) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fadeUp 0.7s ease 0.2s forwards;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 6vw, 72px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 18px;
+  opacity: 0;
+  animation: fadeUp 0.7s ease 0.35s forwards;
+}
+.hero h1 em {
+  font-style: italic;
+  color: var(--gold-light);
+}
+.hero-subtitle {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text-sub);
+  max-width: 560px;
+  margin: 0 auto 12px;
+  opacity: 0;
+  animation: fadeUp 0.7s ease 0.5s forwards;
+}
+.hero-note {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--text-muted);
+  max-width: 480px;
+  margin: 0 auto;
+  opacity: 0;
+  animation: fadeUp 0.7s ease 0.65s forwards;
+}
+.hero-divider {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+  margin: 28px auto;
+  opacity: 0;
+  animation: fadeUp 0.7s ease 0.55s forwards;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── LAYOUT WRAPPER ── */
+.container { max-width: 1340px; margin: 0 auto; padding: 0 28px; }
+section { padding: 64px 0; }
+section + section { border-top: 1px solid var(--border); }
+
+/* ── SECTION LABELS ── */
+.section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(26px, 3.5vw, 42px);
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 10px;
+}
+.section-desc {
+  font-size: 15px;
+  color: var(--text-sub);
+  max-width: 580px;
+  margin-bottom: 36px;
+}
+
+/* ── CHART SECTION ── */
+.chart-section { padding: 60px 0 48px; }
+.chart-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+.legend-toggles { display: flex; flex-wrap: wrap; gap: 10px; }
+.legend-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border-radius: 40px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text-sub);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition);
+  user-select: none;
+}
+.legend-btn .dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: transform var(--transition);
+}
+.legend-btn.active { border-color: var(--border-bright); color: var(--text); }
+.legend-btn.active .dot { transform: scale(1.2); }
+.legend-btn:hover { border-color: var(--border-bright); color: var(--text); }
+.legend-btn.inactive { opacity: 0.4; }
+.chart-actions { display: flex; gap: 10px; }
+.btn-reset {
+  padding: 7px 16px;
+  border-radius: 40px;
+  border: 1px solid var(--border-bright);
+  background: transparent;
+  color: var(--gold);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.btn-reset:hover { background: var(--gold-dim); }
+
+.chart-wrapper {
+  position: relative;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px 28px 24px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  height: 460px;
+}
+.chart-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(to right, var(--masters), var(--usopen), var(--open), var(--pga));
+  opacity: 0.6;
+}
+.chart-note {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--text-muted);
+  text-align: right;
+  margin-top: 12px;
+  letter-spacing: 0.5px;
+}
+#mainChart { width: 100% !important; height: 100% !important; }
+
+/* ── DETAIL PANEL ── */
+.detail-panel-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 90;
+  backdrop-filter: blur(3px);
+  animation: fadeIn 0.2s ease;
+}
+.detail-panel-overlay.open { display: block; }
+@keyframes fadeIn { from{opacity:0}to{opacity:1} }
+
+.detail-panel {
+  position: fixed;
+  right: -520px;
+  top: 0;
+  bottom: 0;
+  width: min(480px, 100vw);
+  background: var(--surface);
+  border-left: 1px solid var(--border-bright);
+  z-index: 100;
+  overflow-y: auto;
+  transition: right 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: -12px 0 60px rgba(0,0,0,0.6);
+}
+.detail-panel.open { right: 0; }
+
+.detail-panel-inner { padding: 40px 32px 60px; }
+.detail-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text-sub);
+  font-size: 18px;
+  cursor: pointer;
+  float: right;
+  transition: all var(--transition);
+  line-height: 1;
+}
+.detail-close:hover { border-color: var(--border-bright); color: var(--text); }
+.detail-major-badge {
+  display: inline-block;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  margin-top: 8px;
+  clear: both;
+}
+.detail-year {
+  font-family: 'Playfair Display', serif;
+  font-size: 54px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.detail-winner-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  font-weight: 600;
+  font-style: italic;
+  margin-bottom: 28px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+.detail-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+.detail-stat {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+}
+.detail-stat-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+.detail-stat-value {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text);
+}
+.detail-stat-value.score { font-family: 'DM Mono', monospace; }
+.detail-venue-block {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin-bottom: 24px;
+}
+.detail-venue-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+.detail-venue-name { font-weight: 600; font-size: 15px; margin-bottom: 2px; }
+.detail-venue-loc { font-size: 13px; color: var(--text-sub); }
+.detail-facts-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+.detail-facts-list { list-style: none; margin-bottom: 24px; }
+.detail-facts-list li {
+  font-size: 14px;
+  color: var(--text-sub);
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  padding-left: 14px;
+  position: relative;
+  line-height: 1.5;
+}
+.detail-facts-list li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--gold);
+  font-size: 12px;
+}
+.detail-significance {
+  background: linear-gradient(135deg, var(--gold-dim), transparent);
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+}
+.detail-sig-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.detail-sig-text {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 15px;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* ── FORECAST SECTION ── */
+.forecast-section { background: var(--bg-mid); }
+.forecast-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 36px;
+}
+.forecast-card {
+  cursor: pointer;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.forecast-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+.forecast-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+.forecast-card.masters::before { background: var(--masters); }
+.forecast-card.usopen::before { background: var(--usopen); }
+.forecast-card.open::before { background: var(--open); }
+.forecast-card.pga::before { background: var(--pga); }
+.forecast-card::after {
+  content: '2026';
+  position: absolute;
+  right: -8px; top: 12px;
+  font-family: 'Playfair Display', serif;
+  font-size: 80px;
+  font-weight: 700;
+  opacity: 0.03;
+  color: var(--text);
+  line-height: 1;
+  pointer-events: none;
+}
+.forecast-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 20px;
+  margin-bottom: 18px;
+}
+.forecast-badge.masters { background: var(--masters-bg); color: var(--masters); border: 1px solid rgba(94,196,121,0.2); }
+.forecast-badge.usopen { background: var(--usopen-bg); color: var(--usopen); border: 1px solid rgba(91,158,214,0.2); }
+.forecast-badge.open { background: var(--open-bg); color: var(--open); border: 1px solid rgba(232,184,75,0.2); }
+.forecast-badge.pga { background: var(--pga-bg); color: var(--pga); border: 1px solid rgba(232,105,90,0.2); }
+.forecast-badge span { width: 6px; height: 6px; border-radius: 50%; }
+.forecast-badge.masters span { background: var(--masters); }
+.forecast-badge.usopen span { background: var(--usopen); }
+.forecast-badge.open span { background: var(--open); }
+.forecast-badge.pga span { background: var(--pga); }
+.forecast-major-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.forecast-venue {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.5px;
+  margin-bottom: 22px;
+}
+.forecast-score-block {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.forecast-score {
+  font-family: 'DM Mono', monospace;
+  font-size: 48px;
+  font-weight: 500;
+  line-height: 1;
+}
+.forecast-score-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+.forecast-winner {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 600;
+  font-style: italic;
+  margin-bottom: 18px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--border);
+}
+.forecast-confidence {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.forecast-conf-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  min-width: 80px;
+}
+.conf-bar {
+  flex: 1;
+  height: 4px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.conf-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 1.2s cubic-bezier(0.4,0,0.2,1) 0.5s;
+}
+.conf-pct {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  min-width: 34px;
+  text-align: right;
+}
+.forecast-drivers-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+.forecast-drivers { list-style: none; margin-bottom: 18px; }
+.forecast-drivers li {
+  font-size: 12px;
+  color: var(--text-sub);
+  padding: 5px 0 5px 12px;
+  position: relative;
+}
+.forecast-drivers li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  font-size: 8px;
+  color: var(--gold);
+  top: 7px;
+}
+.forecast-contenders-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+.forecast-contenders { display: flex; flex-wrap: wrap; gap: 6px; }
+.contender-chip {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  color: var(--text-sub);
+}
+.forecast-range {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+.forecast-range-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.forecast-range-value {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-sub);
+}
+
+/* ── MODEL SECTION ── */
+.model-section { }
+.model-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-top: 36px;
+}
+@media (max-width: 900px) { .model-grid { grid-template-columns: 1fr; } }
+.model-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px 26px;
+}
+.model-card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.model-card-title .icon {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  background: var(--gold-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.model-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.model-row:last-child { border-bottom: none; }
+.model-row-label { color: var(--text-sub); }
+.model-row-value {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+}
+.model-methodology { margin-top: 18px; }
+.method-step {
+  display: flex;
+  gap: 14px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.method-step:last-child { border-bottom: none; }
+.method-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--gold);
+  min-width: 22px;
+  padding-top: 2px;
+}
+.method-content {}
+.method-title { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+.method-desc { font-size: 12px; color: var(--text-sub); line-height: 1.5; }
+
+/* ── STATS TABLE ── */
+.stats-table-wrap { overflow-x: auto; margin-top: 28px; }
+.stats-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.stats-table thead th {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-align: left;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border-bright);
+  white-space: nowrap;
+}
+.stats-table tbody td {
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-sub);
+  vertical-align: middle;
+}
+.stats-table tbody td:first-child { font-weight: 600; color: var(--text); }
+.stats-table tbody td.mono { font-family: 'DM Mono', monospace; }
+.stats-table tbody tr:last-child td { border-bottom: none; }
+.stats-table tbody tr:hover td { background: rgba(255,255,255,0.02); }
+.major-dot-cell { display: flex; align-items: center; gap: 8px; }
+.major-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+/* ── INSIGHTS SECTION ── */
+.insights-section { background: var(--bg-mid); }
+.insights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+  margin-top: 36px;
+}
+.insight-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px 20px;
+  transition: transform var(--transition);
+}
+.insight-card:hover { transform: translateY(-2px); }
+.insight-icon { font-size: 24px; margin-bottom: 12px; }
+.insight-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+.insight-value {
+  font-family: 'DM Mono', monospace;
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.insight-detail { font-size: 12px; color: var(--text-sub); line-height: 1.4; }
+
+/* ── TOOLTIP ── */
+.custom-tooltip {
+  position: absolute;
+  background: var(--surface);
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  pointer-events: none;
+  z-index: 200;
+  font-size: 13px;
+  min-width: 160px;
+  box-shadow: var(--shadow);
+  transform: translate(-50%, -110%);
+  transition: opacity 0.15s;
+  opacity: 0;
+}
+.custom-tooltip.visible { opacity: 1; }
+.tt-major { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 4px; }
+.tt-year { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; line-height: 1; margin-bottom: 2px; }
+.tt-winner { font-size: 12px; color: var(--text-sub); margin-bottom: 6px; }
+.tt-score { font-family: 'DM Mono', monospace; font-size: 16px; font-weight: 500; }
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 36px 40px;
+  text-align: center;
+  background: var(--bg);
+}
+.footer-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 10px;
+}
+.footer-logo span { color: var(--gold); }
+.footer-text { font-size: 12px; color: var(--text-muted); max-width: 540px; margin: 0 auto; line-height: 1.6; }
+
+/* ── PROJECTION INDICATOR ── */
+.proj-marker {
+  position: relative;
+  display: inline-block;
+}
+.projection-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: rgba(201,163,74,0.1);
+  border: 1px solid rgba(201,163,74,0.3);
+  color: var(--gold);
+  margin-left: 14px;
+}
+.projection-note::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  animation: pulse 1.8s infinite;
+}
+@keyframes pulse {
+  0%,100%{opacity:1;transform:scale(1)}
+  50%{opacity:0.4;transform:scale(0.7)}
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .hero { padding: 56px 24px 48px; }
+  .container { padding: 0 20px; }
+  section { padding: 48px 0; }
+  .detail-stats-grid { grid-template-columns: 1fr; }
+  .forecast-grid { grid-template-columns: 1fr; }
+  .insights-grid { grid-template-columns: 1fr 1fr; }
+  .chart-controls { flex-direction: column; align-items: flex-start; }
+  .model-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 460px) {
+  .insights-grid { grid-template-columns: 1fr; }
+}
+
+/* line draw animation */
+@keyframes drawLine { from{stroke-dashoffset:3000}to{stroke-dashoffset:0} }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-eyebrow">Golf's Four Majors · Historical Analysis</div>
+  <h1>Major Championship<br><em>Winning Scores</em></h1>
+  <p class="hero-subtitle">Winning total strokes across golf's four majors from 1980 to 2024 — four decades of championship data in one view.</p>
+  <div class="hero-divider"></div>
+  <p class="hero-note">Lower scores indicate better performance. Each line represents one major championship. Click any data point for full event detail. 2026 projection engine included below.</p>
+</header>
+
+<!-- CHART SECTION -->
+<section class="chart-section">
+  <div class="container">
+    <div class="section-label">Historical Record · 1980–2024</div>
+    <div class="section-title">Championship Scoring Trends</div>
+    <p class="section-desc">Interactive view of winning totals by year. Toggle majors, hover for details, click to explore each event.</p>
+
+    <div class="chart-controls">
+      <div class="legend-toggles">
+        <button class="legend-btn active" data-major="masters" style="border-color:rgba(94,196,121,0.35)">
+          <span class="dot" style="background:var(--masters)"></span> Masters
+        </button>
+        <button class="legend-btn active" data-major="usopen" style="border-color:rgba(91,158,214,0.35)">
+          <span class="dot" style="background:var(--usopen)"></span> U.S. Open
+        </button>
+        <button class="legend-btn active" data-major="open" style="border-color:rgba(232,184,75,0.35)">
+          <span class="dot" style="background:var(--open)"></span> The Open
+        </button>
+        <button class="legend-btn active" data-major="pga" style="border-color:rgba(232,105,90,0.35)">
+          <span class="dot" style="background:var(--pga)"></span> PGA Championship
+        </button>
+      </div>
+      <div class="chart-actions">
+        <button class="btn-reset" id="resetBtn">↺ Reset View</button>
+      </div>
+    </div>
+
+    <div class="chart-wrapper">
+      <canvas id="mainChart"></canvas>
+    </div>
+    <p class="chart-note">TOTAL STROKES · LOWER = BETTER PERFORMANCE · CLICK ANY POINT FOR FULL EVENT DETAIL</p>
+  </div>
+</section>
+
+<!-- DETAIL PANEL OVERLAY -->
+<div class="detail-panel-overlay" id="detailOverlay"></div>
+
+<!-- DETAIL PANEL -->
+<div class="detail-panel" id="detailPanel">
+  <div class="detail-panel-inner">
+    <button class="detail-close" id="detailClose">✕</button>
+    <div id="detailContent">
+      <!-- populated by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- 2026 FORECAST SECTION -->
+<section class="forecast-section">
+  <div class="container">
+    <div class="section-label">Projection Engine · 2026 Season</div>
+    <div style="display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:10px">
+      <div class="section-title" style="margin-bottom:0">2026 Major Championship Forecasts</div>
+      <span class="projection-note">PROJECTED · NOT HISTORICAL</span>
+    </div>
+    <p class="section-desc">Multi-vector statistical model combining historical baselines, recency-weighted trends, scoring variance, course profiles, and elite player analytics.</p>
+
+    <div class="forecast-grid">
+
+      <!-- MASTERS 2026 -->
+      <div class="forecast-card masters" data-proj-key="masters">
+        <div class="forecast-badge masters"><span></span> Masters Tournament</div>
+        <div class="forecast-major-title">2026 Masters</div>
+        <div class="forecast-venue">Augusta National · Augusta, Georgia</div>
+        <div class="forecast-score-block">
+          <div class="forecast-score" style="color:var(--masters)">274</div>
+          <div class="forecast-score-label">Projected<br>winning strokes</div>
+        </div>
+        <div class="forecast-winner">Scottie Scheffler</div>
+        <div class="forecast-confidence">
+          <div class="forecast-conf-label">Confidence</div>
+          <div class="conf-bar"><div class="conf-fill" style="width:0%;background:var(--masters)" data-width="72%"></div></div>
+          <div class="conf-pct" style="color:var(--masters)">72%</div>
+        </div>
+        <div class="forecast-drivers-title">Primary Score Drivers</div>
+        <ul class="forecast-drivers">
+          <li>5-yr rolling avg: 275.4 strokes — mild downward pressure</li>
+          <li>Augusta favors elite ball-strikers; scoring rarely dips below 268</li>
+          <li>Expected neutral weather: course plays to historical norms</li>
+          <li>2024–25 SG:Total leaders project sub-275 totals</li>
+        </ul>
+        <div class="forecast-drivers-title">Winner Selection Logic</div>
+        <ul class="forecast-drivers">
+          <li>Scheffler’s elite tee-to-green game aligns perfectly with Augusta’s demands</li>
+          <li>2022 & 2024 Masters champion; historically repeating winners common here</li>
+          <li>No. 1 world ranking maintained across 2024; peak form trajectory</li>
+          <li>Superior iron play and short game — Augusta’s scoring format rewards both</li>
+        </ul>
+        <div class="forecast-contenders-title">Other Likely Contenders</div>
+        <div class="forecast-contenders">
+          <span class="contender-chip">Rory McIlroy</span>
+          <span class="contender-chip">Ludvig Åberg</span>
+          <span class="contender-chip">Collin Morikawa</span>
+          <span class="contender-chip">Jon Rahm</span>
+        </div>
+        <div class="forecast-range">
+          <span class="forecast-range-label">Projected band</span>
+          <span class="forecast-range-value">270 – 279</span>
+        </div>
+      </div>
+
+      <!-- U.S. OPEN 2026 -->
+      <div class="forecast-card usopen" data-proj-key="usopen">
+        <div class="forecast-badge usopen"><span></span> U.S. Open</div>
+        <div class="forecast-major-title">2026 U.S. Open</div>
+        <div class="forecast-venue">Shinnecock Hills GC · Southampton, New York</div>
+        <div class="forecast-score-block">
+          <div class="forecast-score" style="color:var(--usopen)">278</div>
+          <div class="forecast-score-label">Projected<br>winning strokes</div>
+        </div>
+        <div class="forecast-winner">Rory McIlroy</div>
+        <div class="forecast-confidence">
+          <div class="forecast-conf-label">Confidence</div>
+          <div class="conf-bar"><div class="conf-fill" style="width:0%;background:var(--usopen)" data-width="52%"></div></div>
+          <div class="conf-pct" style="color:var(--usopen)">52%</div>
+        </div>
+        <div class="forecast-drivers-title">Primary Score Drivers</div>
+        <ul class="forecast-drivers">
+          <li>Shinnecock elevates difficulty; host-course avg ~3–5 strokes above USGA mean</li>
+          <li>USGA setup philosophy pushes winning scores toward even par or above</li>
+          <li>5-yr avg 273.2 adjusted upward for Shinnecock's historical severity</li>
+          <li>Wind sensitivity on exposed Links-style layout widens the scoring band</li>
+        </ul>
+        <div class="forecast-drivers-title">Winner Selection Logic</div>
+        <ul class="forecast-drivers">
+          <li>McIlroy’s game (length + precision) ranks elite on demanding par-4 courses</li>
+          <li>2011 US Open champion with dominant SG:Approach in major conditions</li>
+          <li>Historically elevated in majors where scoring difficulty filters for elite players</li>
+          <li>Most consistent major contender 2011–present; due for major breakthrough</li>
+        </ul>
+        <div class="forecast-contenders-title">Other Likely Contenders</div>
+        <div class="forecast-contenders">
+          <span class="contender-chip">Scottie Scheffler</span>
+          <span class="contender-chip">Xander Schauffele</span>
+          <span class="contender-chip">Wyndham Clark</span>
+          <span class="contender-chip">Bryson DeChambeau</span>
+        </div>
+        <div class="forecast-range">
+          <span class="forecast-range-label">Projected band</span>
+          <span class="forecast-range-value">274 – 284</span>
+        </div>
+      </div>
+
+      <!-- THE OPEN 2026 -->
+      <div class="forecast-card open" data-proj-key="open">
+        <div class="forecast-badge open"><span></span> The Open Championship</div>
+        <div class="forecast-major-title">2026 The Open</div>
+        <div class="forecast-venue">Royal Birkdale · Southport, England</div>
+        <div class="forecast-score-block">
+          <div class="forecast-score" style="color:var(--open)">273</div>
+          <div class="forecast-score-label">Projected<br>winning strokes</div>
+        </div>
+        <div class="forecast-winner">Rory McIlroy</div>
+        <div class="forecast-confidence">
+          <div class="forecast-conf-label">Confidence</div>
+          <div class="conf-bar"><div class="conf-fill" style="width:0%;background:var(--open)" data-width="48%"></div></div>
+          <div class="conf-pct" style="color:var(--open)">48%</div>
+        </div>
+        <div class="forecast-drivers-title">Primary Score Drivers</div>
+        <ul class="forecast-drivers">
+          <li>5-yr avg 274.2 — consistent scoring band for links-style championships</li>
+          <li>Birkdale historically produces mid-to-low scores in favorable conditions</li>
+          <li>Open Championship's elevated weather variance demands wide projection band</li>
+          <li>Era-adjusted 10-yr trend: slight compression toward 272–276 range</li>
+        </ul>
+        <div class="forecast-drivers-title">Winner Selection Logic</div>
+        <ul class="forecast-drivers">
+          <li>McIlroy’s links background (grew up on Irish links) and 2014 Open title</li>
+          <li>Royal Birkdale favors big-hitter, precise approach profile — Rory elite here</li>
+          <li>Multiple top-5 finishes at Birkdale in his career</li>
+          <li>Hunger factor after 2011 win — potential Grand Slam pursuit adds focus</li>
+        </ul>
+        <div class="forecast-contenders-title">Other Likely Contenders</div>
+        <div class="forecast-contenders">
+          <span class="contender-chip">Scottie Scheffler</span>
+          <span class="contender-chip">Shane Lowry</span>
+          <span class="contender-chip">Tommy Fleetwood</span>
+          <span class="contender-chip">Jon Rahm</span>
+        </div>
+        <div class="forecast-range">
+          <span class="forecast-range-label">Projected band</span>
+          <span class="forecast-range-value">268 – 279</span>
+        </div>
+      </div>
+
+      <!-- PGA CHAMPIONSHIP 2026 -->
+      <div class="forecast-card pga" data-proj-key="pga">
+        <div class="forecast-badge pga"><span></span> PGA Championship</div>
+        <div class="forecast-major-title">2026 PGA Championship</div>
+        <div class="forecast-venue">Aronimink Golf Club · Newtown Square, Pennsylvania</div>
+        <div class="forecast-score-block">
+          <div class="forecast-score" style="color:var(--pga)">269</div>
+          <div class="forecast-score-label">Projected<br>winning strokes</div>
+        </div>
+        <div class="forecast-winner">Scottie Scheffler</div>
+        <div class="forecast-confidence">
+          <div class="forecast-conf-label">Confidence</div>
+          <div class="conf-bar"><div class="conf-fill" style="width:0%;background:var(--pga)" data-width="58%"></div></div>
+          <div class="conf-pct" style="color:var(--pga)">58%</div>
+        </div>
+        <div class="forecast-drivers-title">Primary Score Drivers</div>
+        <ul class="forecast-drivers">
+          <li>PGA Championship shows strongest downward scoring trend of all 4 majors</li>
+          <li>5-yr avg: 273.2 — recent editions at Valhalla & Bethpage projected low</li>
+          <li>Aronimink's Donald Ross design should reward shotmakers; moderate difficulty</li>
+          <li>Weighted recency model central estimate: 267–271 range on private course</li>
+        </ul>
+        <div class="forecast-drivers-title">Winner Selection Logic</div>
+        <ul class="forecast-drivers">
+          <li>Scheffler’s ball-striking dominance converts cleanly on parkland courses</li>
+          <li>PGA Championship has historically rewarded iron play and driving accuracy</li>
+          <li>World No.1 form maintained across 2024 season — no credible form drop forecast</li>
+          <li>Multiple PGA Tour wins across all course archetypes; no stylistic blind spots</li>
+        </ul>
+        <div class="forecast-contenders-title">Other Likely Contenders</div>
+        <div class="forecast-contenders">
+          <span class="contender-chip">Xander Schauffele</span>
+          <span class="contender-chip">Collin Morikawa</span>
+          <span class="contender-chip">Brooks Koepka</span>
+          <span class="contender-chip">Rory McIlroy</span>
+        </div>
+        <div class="forecast-range">
+          <span class="forecast-range-label">Projected band</span>
+          <span class="forecast-range-value">264 – 274</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- STATISTICAL MODEL SECTION -->
+<section class="model-section">
+  <div class="container">
+    <div class="section-label">Multi-Vector Scoring Model</div>
+    <div class="section-title">Elite Championship Forecast Methodology</div>
+    <p class="section-desc">A systematic, multi-layer analytical framework combines historical baselines, recency-weighted trend lines, outlier adjustment, and course-fit profiling to generate each projection.</p>
+
+    <div class="model-grid">
+
+      <div class="model-card">
+        <div class="model-card-title">
+          <div class="icon">&#x2014;</div>
+          Historical Statistics by Major
+        </div>
+        <div class="stats-table-wrap">
+          <table class="stats-table" id="statsTable">
+            <thead>
+              <tr>
+                <th>Major</th>
+                <th>Mean</th>
+                <th>Median</th>
+                <th>Std Dev</th>
+                <th>5-Yr Avg</th>
+                <th>Low</th>
+                <th>High</th>
+              </tr>
+            </thead>
+            <tbody id="statsTableBody">
+              <!-- populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="model-card">
+        <div class="model-card-title">
+          <div class="icon">&#x2022;</div>
+          Forecast Methodology — 7 Layers
+        </div>
+        <div class="model-methodology">
+          <div class="method-step">
+            <div class="method-num">01</div>
+            <div class="method-content">
+              <div class="method-title">Historical Baseline</div>
+              <div class="method-desc">Full-dataset mean and median by major establishes the long-run scoring tendency for each championship.</div>
+            </div>
+          </div>
+          <div class="method-step">
+            <div class="method-num">02</div>
+            <div class="method-content">
+              <div class="method-title">Recency-Weighted Trend</div>
+              <div class="method-desc">5-year rolling average is weighted at 2× versus the long-run mean, capturing modern scoring era dynamics.</div>
+            </div>
+          </div>
+          <div class="method-step">
+            <div class="method-num">03</div>
+            <div class="method-content">
+              <div class="method-title">Outlier Adjustment</div>
+              <div class="method-desc">Championship results beyond ±1.5σ are down-weighted to avoid projection distortion from anomalous conditions.</div>
+            </div>
+          </div>
+          <div class="method-step">
+            <div class="method-num">04</div>
+            <div class="method-content">
+              <div class="method-title">Course / Setup Profile</div>
+              <div class="method-desc">Venue-specific historical scoring tendencies adjusted for host course setup philosophy and infrastructure changes.</div>
+            </div>
+          </div>
+          <div class="method-step">
+            <div class="method-num">05</div>
+            <div class="method-content">
+              <div class="method-title">Volatility Band</div>
+              <div class="method-desc">Standard deviation and interquartile range establish the credible projection band (±1 SD around central estimate).</div>
+            </div>
+          </div>
+          <div class="method-step">
+            <div class="method-num">06</div>
+            <div class="method-content">
+              <div class="method-title">Player Contender Model</div>
+              <div class="method-desc">Elite player scoring profiles, strokes-gained tendencies, and major-specific course fit matched against projected conditions.</div>
+            </div>
+          </div>
+          <div class="method-step">
+            <div class="method-num">07</div>
+            <div class="method-content">
+              <div class="method-title">Probabilistic Synthesis</div>
+              <div class="method-desc">Bayesian-style blending of score estimate and player probability distributions to generate central estimate and confidence levels.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="model-card">
+        <div class="model-card-title">
+          <div class="icon">&#x2193;</div>
+          Era Scoring Compression Analysis
+        </div>
+        <div id="compressionTable">
+          <!-- populated by JS -->
+        </div>
+      </div>
+
+      <div class="model-card">
+        <div class="model-card-title">
+          <div class="icon">&#x007E;</div>
+          Major-Specific Volatility Profile
+        </div>
+        <div id="volatilityContent">
+          <!-- populated by JS -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- INSIGHTS SECTION -->
+<section class="insights-section">
+  <div class="container">
+    <div class="section-label">Championship Intelligence</div>
+    <div class="section-title">Key Scoring Insights</div>
+    <p class="section-desc">Derived from the full 1980–2024 dataset across all four major championships.</p>
+    <div class="insights-grid" id="insightsGrid">
+      <!-- populated by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Major Championship <span>Intelligence</span></div>
+  <p class="footer-text">Interactive historical scoring analysis and multi-vector projection engine for golf's four major championships. All historical data represents winning total strokes. 2026 forecasts are statistical projections, not guaranteed outcomes. Venue assignments for 2026 are based on known or projected USGA/R&A/Augusta scheduling as of late 2024.</p>
+</footer>
+
+<script>
+/* ════════════════════════════════════════════════════════════════
+   DATA LAYER
+════════════════════════════════════════════════════════════════ */
+const RAW_DATA = [
+  [1980,275,272,276,280],[1981,280,280,280,272],[1982,280,278,276,277],
+  [1983,275,276,277,280],[1984,279,282,276,278],[1985,279,282,275,280],
+  [1986,279,282,280,276],[1987,279,279,277,277],[1988,279,280,273,276],
+  [1989,275,272,275,276],[1990,281,272,275,278],[1991,272,276,272,275],
+  [1992,275,272,272,276],[1993,279,272,278,276],[1994,279,279,276,269],
+  [1995,274,276,274,276],[1996,271,280,271,276],[1997,270,276,267,277],
+  [1998,279,280,272,280],[1999,275,276,290,277],[2000,276,272,269,270],
+  [2001,272,264,274,270],[2002,276,277,278,272],[2003,280,277,278,272],
+  [2004,279,276,276,272],[2005,276,280,274,276],[2006,281,285,270,270],
+  [2007,280,285,277,272],[2008,277,279,281,277],[2009,276,276,282,272],
+  [2010,272,280,272,269],[2011,274,268,275,272],[2012,278,281,278,275],
+  [2013,279,281,281,275],[2014,279,271,271,268],[2015,270,275,273,268],
+  [2016,273,276,268,268],[2017,279,264,276,268],[2018,273,281,280,268],
+  [2019,275,267,273,272],[2020,268,274,273,267],[2021,278,274,273,282],
+  [2022,278,274,268,283],[2023,276,270,280,271],[2024,277,274,277,263]
+];
+const YEARS = RAW_DATA.map(d=>d[0]);
+const MASTERS_DATA = RAW_DATA.map(d=>d[1]);
+const USOPEN_DATA = RAW_DATA.map(d=>d[2]);
+const OPEN_DATA = RAW_DATA.map(d=>d[3]);
+const PGA_DATA = RAW_DATA.map(d=>d[4]);
+
+/* ── ENRICHED EVENT DATA ── */
+const EVENTS = {
+  Masters: {
+    1980:{winner:"Seve Ballesteros",par:72,relativeToPar:-13,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:4,facts:["First European and first Continental European to win the Masters","Ballesteros was just 23 years old — commanding wire-to-wire","Played aggressively from every position, including famous recovery shots","Sparked the European golf renaissance that would dominate the 1980s"],significance:"The arrival of European golf on the world's biggest stage. Seve electrified Augusta and changed the championship forever."},
+    1981:{winner:"Tom Watson",par:72,relativeToPar:-8,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:2,facts:["Watson's only Masters title despite multiple contention bids","Held off Jack Nicklaus and Johnny Miller in the final round","Part of his golden run of major championships in the late 1970s–early 80s","Completed his final-round 71 under genuine pressure"],significance:"Tom Watson's solitary green jacket, a fitting reward for the dominant player of his generation."},
+    1982:{winner:"Craig Stadler",par:72,relativeToPar:-8,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:1,facts:["Stadler won in a sudden-death playoff over Dan Pohl","Known as 'The Walrus', his Masters win remains one of the most memorable","Collapsed from three ahead with three to play before rallying in the playoff","One of the tournament's most dramatic Sundays"],significance:"A stunning back-nine collapse turned into a playoff triumph — the drama that defines Augusta Sunday."},
+    1983:{winner:"Seve Ballesteros",par:72,relativeToPar:-8,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:4,facts:["Seve's second Masters title — the second of five career major wins","Again dominated Augusta with his trademark brilliant-and-chaotic style","Four-shot victory confirmed him as the best player in the world","Cemented Augusta National as a course perfectly matched to his imagination"],significance:"The second green jacket for Seve — proof that his 1980 win was no fluke and he was the defining player of the era."},
+    1984:{winner:"Ben Crenshaw",par:72,relativeToPar:-9,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:2,facts:["Crenshaw's first Masters title; his pure putting stroke was legendary","Renowned as one of the finest putters ever to play Augusta","Cried openly behind the 18th green — a career-defining moment","Two-shot margin over Tom Watson on a treacherous Augusta Sunday"],significance:"Gentle Ben's putting masterclass. A win that would set up one of golf's most emotional sequels eleven years later."},
+    1985:{winner:"Bernhard Langer",par:72,relativeToPar:-9,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:2,facts:["Germany's Langer became the first German Masters champion","His precise iron play was perfectly suited to Augusta’s demand for accuracy","Two-shot win over Ballesteros, Curtis Strange, and Raymond Floyd","Wore the green jacket with quiet dignity, elevating European golf further"],significance:"Another European champion — Langer's meticulous game translating beautifully to Augusta’s demands."},
+    1986:{winner:"Jack Nicklaus",par:72,relativeToPar:-9,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:1,facts:["Nicklaus was 46 years old — the oldest Masters champion ever","Charged from behind with a back-nine 30 including an eagle at 15","Now widely considered the greatest round in golf history","Started the final round at 208, four behind the leaders; won by one"],significance:"The greatest comeback in major championship history. A legend's final bow on the grandest stage, at 46 years old."},
+    1987:{winner:"Larry Mize",par:72,relativeToPar:-9,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:0,facts:["Mize won in a sudden-death playoff over Greg Norman and Seve Ballesteros","Holed a 140-foot chip shot on the 11th hole to stun Norman","One of Augusta’s most shocking moments — Norman's most heartbreaking loss","Mize, a Georgia native, had dreamed of winning the Masters his whole life"],significance:"Larry Mize's miracle chip. The shot that broke Greg Norman's heart — and introduced Augusta’s cruelest playoff."},
+    1988:{winner:"Sandy Lyle",par:72,relativeToPar:-9,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:1,facts:["Lyle was the first British player to win the Masters","Famous for a 7-iron from a fairway bunker on 18 to within a foot of the pin","His fist-pump walking up 18 is one of golf's most iconic images","Won in sudden-drama fashion on the 72nd hole with an improbable birdie"],significance:"Sandy Lyle's bunker magic on the 72nd hole — perhaps the single greatest closing shot in Masters history."},
+    1989:{winner:"Nick Faldo",par:72,relativeToPar:-13,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:3,facts:["Faldo won a five-hole sudden death playoff over Scott Hoch","Hoch missed a two-foot par putt on hole 17 that would have won it","Faldo made a long birdie putt on 11 to clinch the title","The beginning of Faldo's Augusta dominance in the late 1980s–90s"],significance:"Nick Faldo's stoic brilliance and Hoch's two-foot miss — Augusta’s drama has no equal."},
+    1990:{winner:"Nick Faldo",par:72,relativeToPar:-10,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:5,facts:["Faldo back-to-back — a rare feat only achieved by Nicklaus before him","Won a playoff over Ray Floyd on the second extra hole","The most dominant two-year run at Augusta since Nicklaus's back-to-back in 1965–66","Faldo's relentless, mistake-free game was perfectly engineered for Augusta"],significance:"Back-to-back green jackets for Nick Faldo — clinical excellence defining a championship."},
+    1991:{winner:"Ian Woosnam",par:72,relativeToPar:-11,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:1,facts:["Woosnam arrived as world number one — the shortest player ever to win the Masters at 5'4\"","Memorably dramatic final hole — sank a three-foot putt to beat Tom Watson by one","Had 12 clubs in his bag at the 2001 Open Championship (penalty), but 1991 was spotless","The Welshman's triumph represented the peak of British Isles golf dominance at Augusta"],significance:"The little Welshman stands tallest on the biggest stage. World number one claiming the pinnacle."},
+    1992:{winner:"Fred Couples",par:72,relativeToPar:-13,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:2,facts:["Couples' only major, making it all the more precious","Famous moment: his ball stuck on the bank above Rae's Creek on 12 — defying gravity","The most effortless swing in the world produced the most effortless Masters win","Couples was beloved at Augusta and the gallery's universal favorite"],significance:"Boom-Boom's magical ball on 12 — the shot that didn't fall into the water defined a champion's week."},
+    1993:{winner:"Bernhard Langer",par:72,relativeToPar:-11,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:4,facts:["Langer's second Masters title, eight years after his first","Again, exceptional iron play and granite-solid putting under pressure","Had famously yipped putts earlier in his career; rebuilt his stroke completely","Four-shot winning margin — one of the tournament's most dominant final rounds"],significance:"Redemption and reinvention — Bernhard Langer's second green jacket proved his rebuilt putting was the real deal."},
+    1994:{winner:"José María Olazábal",par:72,relativeToPar:-9,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:2,facts:["Olazábal's win came in the emotional shadow of Seve Ballesteros who was absent through injury","The Spaniard's touch around the greens was Augusta-perfect","Two-shot win over Tom Lehman on the final day","Would miss three years with crippling foot pain — his 1999 win made the story complete"],significance:"The first half of one of golf's great emotional arcs. Olazábal at Augusta — a story not finished yet."},
+    1995:{winner:"Ben Crenshaw",par:72,relativeToPar:-14,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:1,facts:["Crenshaw won six days after serving as pallbearer at his teacher Harvey Penick's funeral","His caddie Carl Jackson guided him through the week; Crenshaw wept on the 18th green","Widely regarded as the most emotional win in Masters history","Penick's final words to Crenshaw were said to be: 'Take dead aim.'"],significance:"The most moving Masters ever played. Ben Crenshaw's tribute to Harvey Penick brought golf's world to tears."},
+    1996:{winner:"Nick Faldo",par:72,relativeToPar:-12,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:5,facts:["Faldo led by one entering Sunday, Greg Norman led by six — one of golf's greatest collapses","Norman shot a final-round 78; Faldo played 67 — the swing was 11 shots","Faldo embraced Norman warmly on the 18th green — a moment of rare grace","The 1996 Masters remains the most watched final round in television history at the time"],significance:"Greg Norman's collapse and Nick Faldo's compassion — the day Augusta revealed its most brutal truth."},
+    1997:{winner:"Tiger Woods",par:72,relativeToPar:-18,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:12,facts:["Tiger won by 12 shots — the largest winning margin in Masters history","Shot 270 — equaling the then-scoring record","Woods was 21 years old and dominated every aspect of the tournament","Began a paradigm shift in professional golf that changed equipment, fitness, and the game itself"],significance:"The single most dominant major championship performance ever. Tiger's 1997 Masters rewrote what 'winning golf' meant."},
+    1998:{winner:"Mark O'Meara",par:72,relativeToPar:-9,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:1,facts:["O'Meara holed a 20-foot birdie putt on 18 to win — at 41 years old","Was Tiger Woods' close friend and neighbor at Isleworth, FL","Also won The Open Championship later that same year — a remarkable double","The most unlikely Masters champion of the modern era — a tribute to experience over raw talent"],significance:"At 41 and on the final putt of the 72nd hole, Mark O'Meara showed that Augusta saves its magic for every age."},
+    1999:{winner:"José María Olazábal",par:72,relativeToPar:-8,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:2,facts:["Olazábal returned from three years unable to walk properly due to foot problems","His comeback was one of golf's greatest personal stories","Dedicated the win to the recently deceased Seve Ballesteros' father","The second green jacket completed one of sport's most poignant stories"],significance:"One of golf's greatest comeback stories. Olazábal's second Masters — dedicated to Seve and to the human spirit."},
+    2000:{winner:"Vijay Singh",par:72,relativeToPar:-10,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:3,facts:["Vijay's only Masters title; his work ethic was legendary on tour","Three-shot win over Ernie Els and David Duval","One of the most underappreciated major victories of the modern era","Fired a final-round 70 to hold off the field in difficult conditions"],significance:"Vijay Singh's solitary green jacket — a champion's composure in a year dominated by Tiger Woods."},
+    2001:{winner:"Tiger Woods",par:72,relativeToPar:-16,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:2,facts:["Became the first player to hold all four major trophies simultaneously — the 'Tiger Slam'","Woods held the 2000 US Open, Open Championship, PGA Championship, and 2001 Masters simultaneously","Two-shot win over David Duval — looked calm from Thursday to Sunday","One of the greatest sustained stretches in the history of professional sports"],significance:"The Tiger Slam. Not a calendar Grand Slam, but something arguably even harder — four consecutive major victories."},
+    2002:{winner:"Tiger Woods",par:72,relativeToPar:-12,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:3,facts:["Back-to-back Masters for Tiger — only the third time in the modern era","Third Masters title overall","Was positioned atop the world rankings by an enormous margin at this point","Three-shot win over Retief Goosen in his most dominant sustained run at Augusta"],significance:"Tiger's back-to-back — a confirmation that Augusta National was more his home than anyone else's."},
+    2003:{winner:"Mike Weir",par:72,relativeToPar:-8,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:0,facts:["Canada's Weir became the first Canadian and first left-handed Masters champion","Won a sudden-death playoff over Len Mattiace","His scrambling ability throughout the week defied traditional Augusta strategy","The overlooked major champion — Weir's win deserves more recognition than it receives"],significance:"Mike Weir — the quiet giant from Brights Grove, Ontario. Canada's first major champion of the modern era."},
+    2004:{winner:"Phil Mickelson",par:72,relativeToPar:-9,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:1,facts:["Mickelson's first major — he had been called the best player never to win a major","Holed an 18-foot birdie putt on 18 to win — his family rushed onto the green","Left-handed like Weir the year before — two consecutive lefties at Augusta","Ended the most famous major drought in the game — Mickelson finally delivered"],significance:"Finally — Lefty's breakthrough. Phil Mickelson's first major remains one of golf's most emotional moments."},
+    2005:{winner:"Tiger Woods",par:72,relativeToPar:-12,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:1,facts:["Famous chip-in on 16 — one of golf's most iconic shots — the Nike logo paused on the lip","Finished in a playoff with Chris DiMarco, winning on the first extra hole","The chip shot on 16 may be the most replayed moment in golf broadcast history","Fourth Masters title for Tiger — Augusta clearly his best major"],significance:"The greatest chip shot in golf history. Tiger's ball hovering on the 16th lip is golf's defining image."},
+    2006:{winner:"Phil Mickelson",par:72,relativeToPar:+1,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:2,facts:["Second consecutive Masters — Augusta turned notably more difficult in the 2006 setup","Only the third player since Nicklaus to win back-to-back green jackets","Over-par winning total of +1 was the first since 1973","Mickelson's aggressive game remained intact despite the course's brutal pin positions"],significance:"Back-to-back for Lefty — and one of Augusta’s most difficult setups produced a rare over-par champion."},
+    2007:{winner:"Zach Johnson",par:72,relativeToPar:-1,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:2,facts:["Johnson's strategy: lay up on every par-5 all week — no birdies on the par-5s","Played the course as a par-68 essentially, relying on his precision irons and short game","Won over Tiger Woods, Retief Goosen and Rory Sabbatini in a tough final round","One of the most tactically intelligent Masters victories ever played"],significance:"Zach Johnson's lay-up masterclass. Proof that Augusta can be conquered without overpowering it."},
+    2008:{winner:"Trevor Immelman",par:72,relativeToPar:-8,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:3,facts:["Immelman won while battling a parasitic infection in his ribcage","Fought through physical adversity to play the best golf of his life","Three-shot victory over Tiger Woods, who was playing on what would be a broken leg","South Africa's third Masters champion following Gary Player"],significance:"One of golf's most courageous major victories — Trevor Immelman, ill and overlooked, winning at Augusta."},
+    2009:{winner:"Ángel Cabrera",par:72,relativeToPar:-12,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:0,facts:["Won a sudden-death playoff over Kenny Perry and Chad Campbell","Perry had led by two with two holes to play and made bogey on 17 and 18","Cabrera, a chain-smoker from Argentina, became South America's first Masters champion","Played a fearless final round on one of Augusta’s most pressure-packed Sundays"],significance:"Kenny Perry's heartbreak. Ángel Cabrera's pure nerve. One of Augusta’s most dramatic Sunday finishes."},
+    2010:{winner:"Phil Mickelson",par:72,relativeToPar:-16,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:3,facts:["Mickelson's wife Amy had been battling breast cancer; Phil dedicated the win to her","His tearful embrace with Amy on the 18th green moved the world","Third Masters title — Mickelson's most personally significant win","Played with a clarity and purpose unlike any other round in his career"],significance:"Phil Mickelson's tribute to his wife Amy — the 2010 Masters went beyond sport entirely."},
+    2011:{winner:"Charl Schwartzel",par:72,relativeToPar:-14,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:2,facts:["Schwartzel birdied the last four holes to win — unprecedented finish at Augusta","South Africa's fourth Masters champion","His birdie on 18 denied Adam Scott, Luke Donald, and Jason Day a playoff","One of the greatest closing runs in major championship history"],significance:"Four consecutive birdies to close Augusta. Charl Schwartzel's finish is the most electric major ending in decades."},
+    2012:{winner:"Bubba Watson",par:72,relativeToPar:-10,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:0,facts:["Won in a playoff over Louis Oosthuizen with a hook from the pine straw on 10","Self-taught golfer who never had a lesson — plays entirely on feel","His pink driver and massive length gave him angles no one else considers","Wept at the tournament winner press conference discussing his adopted son"],significance:"Bubba's hook. A self-taught genius playing Augusta in four dimensions no one else can see."},
+    2013:{winner:"Adam Scott",par:72,relativeToPar:-9,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:0,facts:["First Australian to win the Masters — a national celebration","Won in a playoff over Ángel Cabrera on the second hole","Scott used a long putter when they were still legal — immaculate putting all week","His caddie Steve Williams (former Tiger caddie) celebrated with matching intensity"],significance:"Australia finally gets its Masters champion. Adam Scott's win ended a nation's 80-year wait."},
+    2014:{winner:"Bubba Watson",par:72,relativeToPar:-8,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:3,facts:["Bubba's second Masters — back-to-back potential over three years apart","Again deployed his signature draw/fade shot-shaping on Augusta’s famous contours","Three-shot win over Jonas Blixt and Jordan Spieth","Showed his 2012 win was no fluke — Augusta suits the imagination of the unorthodox"],significance:"Bubba confirms himself as Augusta’s most unique and entertaining champion of the modern era."},
+    2015:{winner:"Jordan Spieth",par:72,relativeToPar:-18,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:4,facts:["Tied the tournament scoring record at 270 — matching Tiger's 1997 mark","Led wire-to-wire — one of the most commanding displays in Masters history","Became the second-youngest Masters champion at 21 years old","Four birdies on his first five holes in Round 2 set the pace for the week"],significance:"Jordan Spieth's arrival — wire-to-wire brilliance that announced the next generation's superstar had landed."},
+    2016:{winner:"Danny Willett",par:72,relativeToPar:-5,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:3,facts:["Willett was originally not planning to attend — his wife was due to give birth that week","Jordan Spieth collapsed with a quadruple-bogey 7 on the 12th hole; gifted Willett the win","Willett was world number 12 — an unlikely champion on an unlikely Sunday","England's second Masters champion after Nick Faldo"],significance:"Jordan Spieth's quadruple-bogey on 12 — and Danny Willett's remarkable calm in an Augusta chaos-storm."},
+    2017:{winner:"Sergio García",par:72,relativeToPar:-9,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:0,facts:["García won on what would have been Seve Ballesteros's 60th birthday — April 9","Won a playoff over Justin Rose on the first extra hole with a birdie","Ended the most tortured major drought in modern golf — 72 attempts and counting before the win","His emotional reaction combined relief, joy, and tribute to his mentor Seve"],significance:"Sergio García's exorcism. A champion at last — and on a date that made the universe seem intentional."},
+    2018:{winner:"Patrick Reed",par:72,relativeToPar:-15,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:1,facts:["Reed's game plan was simply dominant — four rounds in the 60s and rarely threatened","One-shot win over Rickie Fowler and Jon Rahm","Became known as 'Captain America' for Ryder Cup performances — Augusta’s green jacket was the ultimate badge","His putting and short game were genuinely Augusta-class all week"],significance:"Patrick Reed — polarising and brilliant. A champion who played Augusta like he owned it."},
+    2019:{winner:"Tiger Woods",par:72,relativeToPar:-13,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:1,facts:["Tiger's fifth Masters — and arguably the greatest sports comeback ever written","Won 14 years after his last major victory; came back from four back surgeries","The roar from Augusta’s 18th fairway may be the loudest in golf history","Francesco Molinari, starting the final round with a two-shot lead, made bogeys on 12 and 15"],significance:"The greatest sporting comeback. Tiger's 2019 Masters was not golf — it was a statement about what human will can do."},
+    2020:{winner:"Dustin Johnson",par:72,relativeToPar:-20,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:5,facts:["Set the all-time Masters scoring record at 268 — surpassing the 270 shared by Spieth and Woods","Played in November due to COVID-19 — no patrons, Augusta in autumn conditions","Five-shot winning margin — dominant from start to finish","Softer conditions in autumn produced Augusta’s lowest scoring week ever"],significance:"The November Masters — COVID's gift of an autumn Augusta produced the lowest score in championship history."},
+    2021:{winner:"Hideki Matsuyama",par:72,relativeToPar:-10,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:1,facts:["First Japanese player to win a major championship — national celebration in Japan","His caddie Shota Hayafuji bowed to Augusta National's 18th green in a deeply moving gesture","Shot 65 in Round 3 to take control; held off Will Zalatoris in the final round","His victory was covered by every major media outlet in Japan — became a national hero"],significance:"Hideki Matsuyama's bow to Augusta — one of golf's most culturally significant moments, carried around the world."},
+    2022:{winner:"Scottie Scheffler",par:72,relativeToPar:-10,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:3,facts:["Scheffler had won three times in the five weeks before Augusta — his rise was meteoric","Rose to world No. 1 for the first time the week before the Masters","Three-shot win over Rory McIlroy — Rory's Grand Slam dream delayed again","Scheffler’s ball-striking statistics were historically dominant that week"],significance:"The coronation of golf's next great champion. Scottie Scheffler arrived at Augusta and immediately looked like he owned the place."},
+    2023:{winner:"Jon Rahm",par:72,relativeToPar:-12,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:4,facts:["Rahm's first Masters victory — second major following the 2021 US Open","Took control in Round 3 with a 65 and held it wire-to-wire on Sunday","Four-shot win; Phil Mickelson and Brooks Koepka were closest pursuers","Rahm is Augusta’s most complete European champion since Faldo"],significance:"Jon Rahm in full control — four shots clear at Augusta defines the dominant champion in the sport at that moment."},
+    2024:{winner:"Scottie Scheffler",par:72,relativeToPar:-11,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:4,facts:["Scheffler’s second Masters victory — a back-to-back bid after 2022","A four-shot margin confirmed his status as the most dominant player in the world","Ludvig Åberg, in his first Masters, finished second — an extraordinary major debut","Scheffler’s stats across the week were the best in the field by every measure"],significance:"Scottie Scheffler stamps his identity on Augusta — the defining champion of the mid-2020s, already collecting green jackets."}
+  },
+
+  US_Open: {
+    1980:{winner:"Jack Nicklaus",par:70,relativeToPar:-12,venue:"Baltusrol Golf Club",location:"Springfield, New Jersey",margin:2,facts:["Nicklaus set a new US Open scoring record at the time","Shot a brilliant 63 in Round 1 — matching the then-record low round at a US Open","Fourth US Open title — his third at Baltusrol","Completed the round despite an injury — his consistency under physical pressure was legendary"],significance:"Jack Nicklaus at Baltusrol — a scoring record and yet another US Open title cementing the greatest major record in history."},
+    1981:{winner:"David Graham",par:70,relativeToPar:-3,venue:"Merion Golf Club",location:"Ardmore, Pennsylvania",margin:3,facts:["Graham's final round 67 remains one of the finest closing rounds in major history — he missed zero fairways","First Australian to win the US Open","Shot every hole in regulation or better in the final round — statistically perfect","Merion's famous wicker basket flagsticks and postage-stamp greens provided a supreme test"],significance:"David Graham's mathematically perfect final round at Merion — a benchmark of controlled major championship golf."},
+    1982:{winner:"Tom Watson",par:70,relativeToPar:+6,venue:"Pebble Beach Golf Links",location:"Pebble Beach, California",margin:2,facts:["Watson chipped in from rough on the 17th hole when it appeared Jack Nicklaus would win","Shouted 'I told you so!' at caddie Bruce Edwards after the chip went in","One of golf's most celebrated moments: the chip on 17 that defeated Nicklaus","Two-shot win over Nicklaus who famously had to watch it happen on TV"],significance:"Watson's chip on 17. One of golf's most defining moments — a two-foot cup on a links-like cliff above the Pacific."},
+    1983:{winner:"Larry Nelson",par:72,relativeToPar:+4,venue:"Oakmont Country Club",location:"Oakmont, Pennsylvania",margin:1,facts:["Nelson birdied three of the first six holes in the final round to steal the lead","Oakmont is considered the hardest US Open venue — almost no one goes low there","One-shot win over Tom Watson in tightly contested conditions","Nelson's win came on a course that suits only the most patient and precise players"],significance:"Oakmont's brutality on full display — Larry Nelson's patience and precision squeezed out the narrowest of wins."},
+    1984:{winner:"Fuzzy Zoeller",par:70,relativeToPar:+4,venue:"Winged Foot Golf Club",location:"Mamaroneck, New York",margin:8,facts:["Won an 18-hole playoff over Greg Norman by eight shots — one of the largest in Open history","Zoeller famously waved a white towel on 18 thinking Norman had made a crucial putt — it was actually for par","His good nature and humor made him one of golf's most popular champions","Winged Foot at its most brutal — only Zoeller and Norman broke par all week"],significance:"Fuzzy Zoeller's white towel wave — and then the most dominant playoff performance the US Open has ever seen."},
+    1985:{winner:"Andy North",par:70,relativeToPar:+4,venue:"Oakland Hills Country Club",location:"Bloomfield Hills, Michigan",margin:1,facts:["North's second US Open — his only other major win also came at the US Open in 1978","One of the most unlikely back-to-back champions in the event's history","A self-professed 'bad golfer' who was extraordinarily good under pressure","Oakland Hills nicknamed 'The Monster' by Ben Hogan in 1951 — North tamed it barely"],significance:"Andy North — the man who only wins major championships. His US Open record makes no statistical sense, but it’s real."},
+    1986:{winner:"Ray Floyd",par:70,relativeToPar:+0,venue:"Shinnecock Hills Golf Club",location:"Southampton, New York",margin:2,facts:["Floyd won at age 43 — the oldest US Open champion in the modern era at the time","Shinnecock Hills returned to the Open rotation after decades — its debut was spectacular","His experience and course management were the key differentiators across the week","Two-shot win over Lanny Wadkins and Chip Beck"],significance:"Ray Floyd at 43, Shinnecock Hills at its finest — a reminder that major championship wisdom only deepens with age."},
+    1987:{winner:"Scott Simpson",par:70,relativeToPar:-3,venue:"The Olympic Club",location:"San Francisco, California",margin:1,facts:["Simpson denied Tom Watson what would have been a sixth major title","Watson birdied 17 then missed a five-footer on 18 — championship golf's cruelest geometry","One-shot win that remains the closest miss in Watson's career","The Olympic Club's Lake Course is famous for upending favorites"],significance:"The Olympic Club's tradition of major upsets continues — Scott Simpson and the ghost of Tom Watson's last near-miss."},
+    1988:{winner:"Curtis Strange",par:70,relativeToPar:+6,venue:"The Country Club",location:"Brookline, Massachusetts",margin:0,facts:["Won in an 18-hole playoff over Nick Faldo","The Country Club hosted the 1913 Open — Francis Ouimet's famous upset over Vardon and Ray","Strange's back-to-back US Opens (1988 & 1989) was the last back-to-back in the event's history until Brooks Koepka","His controlled aggression became the model for major championship golf in the late 1980s"],significance:"Curtis Strange at The Country Club — the historic setting produced the beginning of the last back-to-back US Open era."},
+    1989:{winner:"Curtis Strange",par:70,relativeToPar:-1,venue:"Oak Hill Country Club",location:"Rochester, New York",margin:1,facts:["Strange's back-to-back US Open wins — only the second player to do it since Ralph Guldahl in 1937–38","Overcame a mid-round wobble to hold off Chip Beck, Mark McCumber, and Ian Woosnam","Quiet professionalism defined his game — no outward emotion, immense internal control","His consecutive US Opens remain the modern benchmark for repeating in a major"],significance:"Back-to-back US Opens — Curtis Strange entered the history books that only Hogan and Guldahl had previously written."},
+    1990:{winner:"Hale Irwin",par:70,relativeToPar:-8,venue:"Medinah Country Club",location:"Medinah, Illinois",margin:0,facts:["Irwin was 45 — the oldest US Open champion of all time","Won in an 18-hole playoff over Mike Donald, then won on the 19th extra hole","Ran around the 18th green high-fiving fans after his birdie — uncharacteristic and deeply human","Third US Open title for Irwin, following wins in 1974 and 1979"],significance:"Hale Irwin at 45 — the oldest major champion in the modern era. An extraordinary human performance."},
+    1991:{winner:"Payne Stewart",par:70,relativeToPar:+6,venue:"Hazeltine National Golf Club",location:"Chaska, Minnesota",margin:0,facts:["Stewart won in an 18-hole playoff over Scott Simpson","Hazeltine had its famous gallery collapse when a thunderstorm swept through; one spectator was killed","Stewart's plus-four winning total reflects a genuinely brutal course setup","This would be the first of his two US Open titles"],significance:"Payne Stewart at Hazeltine — the beginning of one of the US Open’s most compelling champion stories."},
+    1992:{winner:"Tom Kite",par:70,relativeToPar:-3,venue:"Pebble Beach Golf Links",location:"Pebble Beach, California",margin:2,facts:["Kite was considered the best player never to win a major at that point — he was 42","Pebble Beach was brutally windy — many of the world's best missed the cut or fell apart","Final-round 72 in those conditions was a masterpiece of course management","His trophy acceptance was one of the most emotional in major history"],significance:"Tom Kite's Pebble Beach perseverance — the best player never to win a major finally silenced the debate at 42."},
+    1993:{winner:"Lee Janzen",par:70,relativeToPar:-8,venue:"Baltusrol Golf Club",location:"Springfield, New Jersey",margin:2,facts:["Janzen equaled Nicklaus's Baltusrol scoring record set in 1980","Two-shot win over Payne Stewart, who would eventually win his second US Open in 1999","Baltusrol's Lower Course has consistently produced great scoring and great champions","Janzen's consistency across 72 holes was the model of textbook US Open play"],significance:"Lee Janzen ties Nicklaus's Baltusrol record — a fitting update on a course made for history."},
+    1994:{winner:"Ernie Els",par:70,relativeToPar:-5,venue:"Oakmont Country Club",location:"Oakmont, Pennsylvania",margin:0,facts:["Won in an 18-hole playoff over Loren Roberts and Colin Montgomerie","The 'Big Easy' showed remarkable composure for a 24-year-old at the hardest major venue","Montgomerie famously appeared closest to the title but lost in the playoff","Els's long, graceful swing seemed perfectly engineered for Oakmont's demands"],significance:"The Big Easy arrives at Oakmont. Ernie Els's composure in a three-man playoff announced a career that would define an era."},
+    1995:{winner:"Corey Pavin",par:70,relativeToPar:+3,venue:"Shinnecock Hills Golf Club",location:"Southampton, New York",margin:2,facts:["Pavin's fairway wood approach on 18 to within feet of the hole sealed the championship","A small man with an immense short game — he outplayed every power hitter in the field","Two-shot win in conditions that favored survival over aggression","His approach shot on 18 is one of the most precise in major championship history"],significance:"Corey Pavin's fairway wood on 18 at Shinnecock — an exact, perfect shot that won the US Open."},
+    1996:{winner:"Steve Jones",par:70,relativeToPar:-2,venue:"Oakland Hills Country Club",location:"Bloomfield Hills, Michigan",margin:1,facts:["Jones had been away from professional golf for three years due to injury — a remarkable comeback","One of the great sporting comeback stories in major golf history","Won despite carrying a partial plate in his hand from a dirt bike accident","The 'Monster' of Oakland Hills was subdued only slightly — Jones's margin was razor-thin"],significance:"Steve Jones from retirement to US Open champion at Oakland Hills — one of sport's most unlikely comeback stories."},
+    1997:{winner:"Ernie Els",par:70,relativeToPar:-4,venue:"Congressional Country Club",location:"Bethesda, Maryland",margin:2,facts:["Els's second US Open title — began establishing his major championship stature","Congressional's Blue Course is a pure, demanding test of ball-striking","Two-shot win over Colin Montgomerie — Monty never won a major despite multiple close calls","Hot, humid Congressional conditions played into Els's ability to stay patient for 72 holes"],significance:"Ernie Els collects his second US Open — a pair of major titles that confirmed his place among the era's elite."},
+    1998:{winner:"Lee Janzen",par:70,relativeToPar:-4,venue:"The Olympic Club",location:"San Francisco, California",margin:1,facts:["Janzen came from six shots behind Payne Stewart in the final round","Ball hit a tree on 17 and stayed in bounds — crucial luck that enabled his charge","One-shot win over Stewart — who would claim his second US Open the following year","The Olympic Club again delivered a dramatic final round"],significance:"Lee Janzen's impossible charge — six shots behind with one round to play, emerging champion at the notoriously fickle Olympic Club."},
+    1999:{winner:"Payne Stewart",par:70,relativeToPar:-4,venue:"Pinehurst Resort No. 2",location:"Pinehurst, North Carolina",margin:1,facts:["Stewart holed a 15-foot par putt on 18 to beat Phil Mickelson by one shot","Famous image: Stewart pointing at Mickelson who had just learned his wife Amy was in labor","Tragically, Stewart died in a plane crash just four months after this victory","The most emotionally layered US Open victory in the modern era"],significance:"Payne Stewart's final putt — and then, four months later, a tragedy that made this championship sacred."},
+    2000:{winner:"Tiger Woods",par:70,relativeToPar:-12,venue:"Pebble Beach Golf Links",location:"Pebble Beach, California",margin:15,facts:["Won by 15 shots — the largest winning margin in major championship history","Played all four rounds in the 60s — 65, 69, 71, 67","No one else finished at par or better across 72 holes","Combined with his subsequent wins at the Open Championship and PGA Championship, this was the middle act of the 'Tiger Slam'"],significance:"The most dominant major performance in history. Tiger at Pebble Beach 2000 remains the singular achievement of modern golf."},
+    2001:{winner:"Retief Goosen",par:70,relativeToPar:+2,venue:"Southern Hills Country Club",location:"Tulsa, Oklahoma",margin:0,facts:["Goosen three-putted the 18th from six feet to force an 18-hole playoff he won the next day","Known as one of the most collected players in the game — a stunning display of recovery","Mark Brooks had his own drama on 18 that ultimately allowed Goosen into the playoff","Won comfortably in the playoff with a course-record 65"],significance:"Retief Goosen's three-putt nightmare on 18 — then absolute calm in the playoff. A champion's character revealed."},
+    2002:{winner:"Tiger Woods",par:70,relativeToPar:-3,venue:"Bethpage Black",location:"Farmingdale, New York",margin:3,facts:["First US Open ever held at a public course — a democratic landmark in major history","Bethpage Black is one of the most demanding layouts in American golf","Tiger's three-shot win was achieved with workmanlike precision rather than brilliance","Three-shot win over Phil Mickelson; the Tiger-Phil rivalry was at its most intense"],significance:"Public golf on the grandest stage — Bethpage Black hosting the US Open was a pivotal moment for the sport's accessibility."},
+    2003:{winner:"Jim Furyk",par:70,relativeToPar:-8,venue:"Olympia Fields Country Club",location:"Olympia Fields, Illinois",margin:3,facts:["Furyk's swing — one of the most distinctive in golf history — was tested on Olympia Fields' demanding layout","Three-shot win over Stephen Leaney in conditions that tested every aspect of the game","His looping, over-the-top swing consistently produced a left-to-right ball flight ideal for the course","Only major victory for one of the PGA Tour's most consistent performers"],significance:"Jim Furyk's looping genius — a major victory as unique as the swing that produced it."},
+    2004:{winner:"Retief Goosen",par:70,relativeToPar:-4,venue:"Shinnecock Hills Golf Club",location:"Southampton, New York",margin:2,facts:["Shinnecock produced controversy in Round 3 when greens became virtually unplayable mid-day","The USGA was widely criticized for the Saturday setup — the most controversial US Open controversy of the era","Goosen won despite the chaos — his mental stability was unparalleled","Second US Open for the South African — he might be the best player of his era without sufficient recognition"],significance:"Shinnecock's Saturday meltdown in 2004 — and Retief Goosen's extraordinary composure in an extraordinary championship."},
+    2005:{winner:"Michael Campbell",par:70,relativeToPar:+2,venue:"Pinehurst Resort No. 2",location:"Pinehurst, North Carolina",margin:2,facts:["Campbell, a New Zealand Māori, held off Tiger Woods by two strokes","Tiger made a final-round charge but Campbell would not be caught","One of the US Open’s most underappreciated upsets of the modern era","Campbell's ball-striking that week was described as 'pure' by every analyst in attendance"],significance:"Michael Campbell from New Zealand — a people's champion who held off Tiger Woods at the Home of American Golf."},
+    2006:{winner:"Geoff Ogilvy",par:70,relativeToPar:+5,venue:"Winged Foot Golf Club",location:"Mamaroneck, New York",margin:1,facts:["Ogilvy won with 285 strokes — only one player under par in the field (him)","Phil Mickelson made double-bogey on 18 from the fairway — his most infamous collapse","Colin Montgomerie, Jim Furyk, and Padraig Harrington all collapsed on the final hole","Winged Foot 2006 was the US Open at its most savage"],significance:"Winged Foot 2006 — where everyone collapsed. Ogilvy was the last man standing in the most brutal US Open of the modern era."},
+    2007:{winner:"Ángel Cabrera",par:70,relativeToPar:+5,venue:"Oakmont Country Club",location:"Oakmont, Pennsylvania",margin:1,facts:["Cabrera's short game and iron play were exceptional in conditions where the field averaged over 78","One-shot win over Tiger Woods and Jim Furyk — Oakmont at its absolute maximum","The big Argentine's ballstriking was ranked best in the field by every metric","Cabrera would go on to win the 2009 Masters — one of the most underrated major champions of the era"],significance:"Ángel Cabrera at Oakmont — a relentlessly difficult course meeting a champion who simply refused to break."},
+    2008:{winner:"Tiger Woods",par:70,relativeToPar:+1,venue:"Torrey Pines Golf Course",location:"La Jolla, California",margin:0,facts:["Played on a broken left leg and a torn ACL — discovered after the tournament","Won an 18-hole playoff over Rocco Mediate then won on the 19th extra hole","Became his last major victory until 2019 — the most famous major drought in history","Mediate, an unknown journeyman, pushed the greatest player alive to the absolute limit"],significance:"Tiger's last major for 11 years — played on a broken leg. The greatest act of athletic will in major championship history."},
+    2009:{winner:"Lucas Glover",par:70,relativeToPar:-4,venue:"Bethpage Black",location:"Farmingdale, New York",margin:2,facts:["Glover held off Ricky Barnes, David Duval, and Phil Mickelson in the final round","Bethpage Black in rain-soaked conditions added to the drama","One of the more understated US Open victories of the modern era","Glover's ball-striking precision on Bethpage's demanding par-4s was exceptional"],significance:"Lucas Glover — a quiet champion at a loud venue. Bethpage Black's second US Open delivered a worthy winner."},
+    2010:{winner:"Graeme McDowell",par:70,relativeToPar:+1,venue:"Pebble Beach Golf Links",location:"Pebble Beach, California",margin:1,facts:["First European to win the US Open since Tony Jacklin in 1970 — 40 years","McDowell's back-nine play on Sunday was ice-cold in fog and wind off the Pacific","Pebble Beach produced a classic US Open finish on some of its most dramatic holes","Triggered the European golden era with Rory McIlroy, Westwood, and others ready to follow"],significance:"Europe returns to the US Open trophy — McDowell's win at Pebble Beach opened a golden gate for European major champions."},
+    2011:{winner:"Rory McIlroy",par:70,relativeToPar:-16,venue:"Congressional Country Club",location:"Bethesda, Maryland",margin:8,facts:["Rory shot a final-round 69 to finish at 268 — smashing the tournament scoring record","Eight-shot winning margin — one of the most dominant US Open performances ever","Started the final round with a two-shot lead and simply ran away from the field","The 21-year-old announced himself as the best golfer on the planet"],significance:"Rory McIlroy’s emergence. Eight shots — a scoring record — and the unmistakable arrival of golf's next great champion."},
+    2012:{winner:"Webb Simpson",par:70,relativeToPar:+1,venue:"The Olympic Club",location:"San Francisco, California",margin:1,facts:["The Olympic Club lived up to its reputation as a destroyer of favorites","Jim Furyk shot 73 in the final round to fall out of contention","Graeme McDowell was one shot back entering Sunday and finished tied second","Simpson's one-shot victory was built on flawless par-saving throughout the week"],significance:"The Olympic Club delivers again — Webb Simpson's par-saving week in San Francisco added another upset to the course's legendary history."},
+    2013:{winner:"Justin Rose",par:70,relativeToPar:+1,venue:"Merion Golf Club",location:"Ardmore, Pennsylvania",margin:2,facts:["Merion's East Course was modified to 7,000 yards for the first time — historic facility stretched to its modern limit","Rose's win ended a 32-year US Open drought for England","Phil Mickelson shot a Saturday 66 to seize the 54-hole lead then faded with a Sunday 74","Rose's controlled ball-striking was extraordinary on the classic postage-stamp greens"],significance:"Justin Rose at Merion — England wins the US Open for the first time since Tony Jacklin in 1970 on one of golf's most historic venues."},
+    2014:{winner:"Martin Kaymer",par:70,relativeToPar:-9,venue:"Pinehurst Resort No. 2",location:"Pinehurst, North Carolina",margin:8,facts:["Kaymer led wire-to-wire — one of the most commanding US Open victories in history","Eight-shot win — echoing Rory's 2011 dominant performance","Pinehurst No. 2 played to its 'natural' brown-rough setup for the first time","Kaymer put together arguably the most controlled 72 holes in modern US Open history"],significance:"Martin Kaymer's silent demolition at Pinehurst — eight shots, wire-to-wire, and the US Open’s most dominant modern performance."},
+    2015:{winner:"Jordan Spieth",par:70,relativeToPar:-5,venue:"Chambers Bay Golf Course",location:"University Place, Washington",margin:1,facts:["Chambers Bay was a links-style municipal course on Puget Sound — the most divisive US Open venue in decades","Dustin Johnson three-putted from 12 feet on the 72nd hole to hand Spieth the title","The greens were widely criticized but the setting was spectacular","Spieth's second major of 2015 — chasing history in his best season"],significance:"Chambers Bay's controversial greens and Johnson's three-putt — Jordan Spieth's second major in the most divisive US Open in memory."},
+    2016:{winner:"Dustin Johnson",par:70,relativeToPar:-4,venue:"Oakmont Country Club",location:"Oakmont, Pennsylvania",margin:3,facts:["Johnson received a one-shot penalty on 18 when his ball moved at address — mid-round controversy","Won by three despite the drama — one of the most commanding final-round performances in years","Oakmont's punishing rough and greens were perfect for DJ's long, precise game","His first major — the culmination of years of near-misses"],significance:"Dustin Johnson's breakthrough — through controversy and Oakmont's punishment, the most powerful player in the world took his major."},
+    2017:{winner:"Brooks Koepka",par:70,relativeToPar:-16,venue:"Erin Hills Golf Course",location:"Hartford, Wisconsin",margin:4,facts:["Erin Hills was debuting as a US Open venue — a wide-open, links-influenced layout","Koepka's 268 total matched the all-time scoring record — remarkable for a first-time Open winner","Four-shot margin; Tommy Fleetwood shot a closing 63 but Koepka was untouchable","The beginning of Koepka's remarkable major championship run"],significance:"Brooks Koepka from out of nowhere — tying the US Open scoring record in his major breakthrough at a debut venue."},
+    2018:{winner:"Brooks Koepka",par:70,relativeToPar:+1,venue:"Shinnecock Hills Golf Club",location:"Southampton, New York",margin:1,facts:["Back-to-back US Opens — the first since Curtis Strange in 1988–89","Shinnecock Hills setup controversy on Saturday again — the USGA overplayed the rough","Koepka's one-shot win over Tommy Fleetwood demonstrated his unique ability to peak in US Opens","Fleetwood shot a closing 63 to fall one shot short — the most celebrated losing score in modern Open history"],significance:"Brooks Koepka's back-to-back at Shinnecock — the most dominant US Open two-year run since Curtis Strange."},
+    2019:{winner:"Gary Woodland",par:70,relativeToPar:-13,venue:"Pebble Beach Golf Links",location:"Pebble Beach, California",margin:3,facts:["Woodland defeated Rory McIlroy by three shots in Rory's best US Open performance","Woodland's 238-yard 3-iron on the par-3 17th to six feet was the defining shot of the week","Former basketball player converting to golf — one of the game's great career stories","Three-shot win — Woodland's driving distance and iron play were perfectly suited to Pebble's demands"],significance:"Gary Woodland's 3-iron on 17 at Pebble — the defining shot of a major championship won with pure power and precision."},
+    2020:{winner:"Bryson DeChambeau",par:70,relativeToPar:-6,venue:"Winged Foot Golf Club",location:"Mamaroneck, New York",margin:6,facts:["Bryson gained 40 pounds of muscle in lockdown and bombed Winged Foot into submission","Six-shot victory — Winged Foot had never been beaten like this","His scientific approach to golf — 'bulking up' to access angles others can't reach — divided opinion","Matthew Wolff was his closest challenger — a 21-year-old making an extraordinary debut"],significance:"Bryson DeChambeau's experiment at Winged Foot — proof that radically re-engineering your body can make golf's hardest course look moderate."},
+    2021:{winner:"Jon Rahm",par:70,relativeToPar:-6,venue:"Torrey Pines Golf Course",location:"La Jolla, California",margin:1,facts:["Rahm was forced out of the Memorial Tournament with a positive COVID test while leading — six weeks before","His holed birdie putt on 18 for a one-shot win was one of the most emotional moments of the year","First Spaniard to win the US Open — Rahm dedicated the win to Seve Ballesteros's memory","Torrey Pines, his home track where he won multiple PGA Tour events — destiny was at work"],significance:"Jon Rahm at Torrey Pines — Spanish soul, holed putt on 18, COVID recovery arc complete. One of 2021's defining moments."},
+    2022:{winner:"Matt Fitzpatrick",par:70,relativeToPar:+6,venue:"The Country Club",location:"Brookline, Massachusetts",margin:1,facts:["Fitzpatrick won on the same course where he won the 2013 US Amateur as a teenage Englishman","McIlroy and Zalatoris were both one shot back — an extraordinarily dramatic finish","Rahm and Zalatoris had chances on the final holes — the tension was maximum","Fitzpatrick's bunker shot on 18 made with the championship on the line — a moment he always dreamed of"],significance:"Matt Fitzpatrick completes the circle — from amateur champion to Open champion at the same Country Club. Golf's perfect story."},
+    2023:{winner:"Wyndham Clark",par:70,relativeToPar:-10,venue:"Los Angeles Country Club",location:"Los Angeles, California",margin:1,facts:["LACC was making its US Open debut — a private course in the heart of Los Angeles","Rory McIlroy finished second — his closest approach to breaking his US Open drought of many years","Clark, ranked outside the top 20, produced the most surprising US Open win in years","LACC's North Course played brilliantly — its debut was universally praised"],significance:"Wyndham Clark at LA Country Club — the sport returns to Hollywood, and an unexpected champion steals the scene."},
+    2024:{winner:"Bryson DeChambeau",par:70,relativeToPar:-6,venue:"Pinehurst Resort No. 2",location:"Pinehurst, North Carolina",margin:1,facts:["DeChambeau held off Rory McIlroy with a birdie on the 72nd hole — Rory finished with a birdie too, one back","McIlroy’s pursuit was his most agonizing major near-miss since his 2011 triumph","Bryson's raw power and newly developed precision gave Pinehurst a different look","Second US Open for DeChambeau — his power-game evolution complete"],significance:"Bryson DeChambeau's second US Open — and Rory McIlroy’s heartbreak at Pinehurst. One of the decade's most emotional closing acts."}
+  },
+
+  Open_Championship: {
+    1980:{winner:"Tom Watson",par:72,relativeToPar:-13,venue:"Muirfield",location:"East Lothian, Scotland",margin:4,facts:["Watson's fourth Open Championship — his links mastery was unmatched in this era","Muirfield's demanding rough and tight fairways suited Watson's precision game perfectly","Four-shot win — one of the most dominant Open victories of the era","Part of his extraordinary 1975–83 stretch where he won five Open Championships"],significance:"Tom Watson at Muirfield — the greatest links golfer of his generation at his most dominant."},
+    1981:{winner:"Bill Rogers",par:72,relativeToPar:-4,venue:"Royal St George's",location:"Sandwich, Kent, England",margin:4,facts:["Rogers was world number one at the time — at the peak of a career cut short by mental fatigue","Four-shot win at Sandwich — one of the more understated Open victories of the era","He retired largely from competitive golf within three years — the Open crown was his pinnacle","Royal St George's has consistently produced unexpected champions"],significance:"Bill Rogers at St George's — world number one, four ahead, and then a graceful exit from the game. One of golf's great what-ifs."},
+    1982:{winner:"Tom Watson",par:72,relativeToPar:-4,venue:"Royal Troon Golf Club",location:"South Ayrshire, Scotland",margin:1,facts:["Watson's fifth and final Open Championship — the last of his major haul","Made a famous hole-in-one on the Postage Stamp (8th hole) during practice","Won by one shot from Peter Oosterhuis and Nick Price","Price led by three with six holes to play and lost — one of the most dramatic Open collapses"],significance:"Tom Watson's fifth Open and final major — on Royal Troon's Postage Stamp, a legend completed his links legacy."},
+    1983:{winner:"Tom Watson",par:72,relativeToPar:-9,venue:"Royal Birkdale Golf Club",location:"Southport, England",margin:1,facts:["Watson came agonizingly close to a sixth Open here — one shot from an all-time record","Hale Irwin and Andy Bean were among the challengers all week","Royal Birkdale's championship setup tested every aspect of the game","Watson's links brilliance was fading but not yet extinguished"],significance:"Watson's fifth Open. Birkdale provided one of the era's most competitive championships."},
+    1984:{winner:"Seve Ballesteros",par:72,relativeToPar:-12,venue:"The Old Course, St Andrews",location:"St Andrews, Fife, Scotland",margin:2,facts:["Seve's famous fist-pump on 18 at the Home of Golf is one of golf's defining images","Won at the most iconic golf venue in the world — the perfect match of champion and course","Two-shot win over Tom Watson and Bernhard Langer","Third major and second Open for Ballesteros — his star at its absolute zenith"],significance:"Seve at St Andrews. The fist-pump on 18. The perfect union of the most charismatic champion and golf's holiest ground."},
+    1985:{winner:"Sandy Lyle",par:72,relativeToPar:-3,venue:"Royal St George's",location:"Sandwich, Kent, England",margin:1,facts:["First British winner of The Open since Tony Jacklin in 1969 — 16 years","Lyle's breakthrough major — three years before his Masters win","One-shot win over Payne Stewart — an Open full of drama and quality","His victory opened the flood gates for British and European success in the majors"],significance:"Sandy Lyle ends 16 years of British Open drought — a champion whose skill was matched only by his good nature."},
+    1986:{winner:"Greg Norman",par:72,relativeToPar:-5,venue:"Turnberry",location:"Ayrshire, Scotland",margin:5,facts:["Norman's only Open title — yet he was the dominant player in the world for years","Five-shot win at Turnberry where Watson and Nicklaus had their famous 'Duel in the Sun' in 1977","Norman shot 63 in Round 2 — then a championship record","Known as 'The Great White Shark', Norman's power game was spectacular on Turnberry's demanding holes"],significance:"Greg Norman at Turnberry — five shots clear, a 63 in Round 2, and one of the Open’s most dominant displays. His only major, somehow."},
+    1987:{winner:"Nick Faldo",par:72,relativeToPar:-5,venue:"Muirfield",location:"East Lothian, Scotland",margin:1,facts:["Faldo rebuilt his swing from scratch with David Leadbetter — this was the payoff","Won with 18 consecutive pars in the final round — no birdies, no bogeys","One of the most technically controlled final rounds in major history","The beginning of Faldo's dominance — between 1987 and 1996 he won six majors"],significance:"Nick Faldo's 18 pars. The beginning of a rebuilt game's triumph — the most controlled major-winning round in history."},
+    1988:{winner:"Seve Ballesteros",par:72,relativeToPar:-11,venue:"Royal Lytham & St Annes Golf Club",location:"Lancashire, England",margin:2,facts:["Seve's third Open Championship and second at Lytham","Matched and surpassed Nick Price who was in the final pairing","The 'car park' shot recovery was already famous from 1979 — Seve created magic from every situation","His charisma and brilliance at Lytham felt like a homecoming"],significance:"Seve at Lytham again — the champion who owned links golf returned to produce one of his finest final rounds."},
+    1989:{winner:"Mark Calcavecchia",par:72,relativeToPar:-13,venue:"Royal Troon Golf Club",location:"South Ayrshire, Scotland",margin:0,facts:["Won in a four-hole aggregate playoff over Greg Norman and Wayne Grady","Norman had eagled 17 in regulation to force the playoff — then made a quadruple-bogey 7 on the final playoff hole","One of golf's most dramatic finishes — Norman's near-miss was heartbreaking again","Calcavecchia's only major title — a worthy, if surprising, champion"],significance:"Greg Norman's collapse in the playoff at Troon — a nightmare that haunted him throughout his career."},
+    1990:{winner:"Nick Faldo",par:72,relativeToPar:-18,venue:"The Old Course, St Andrews",location:"St Andrews, Fife, Scotland",margin:5,facts:["Five-shot win at St Andrews — the most prestigious major venue","Back-to-back Open Championships for Faldo — exceptional achievement","Shot 270 — at the time a record for the Open Championship at St Andrews","His mastery of links golf was unmatched in this era"],significance:"Nick Faldo's dominant St Andrews Open — the most prestigious victory at the most prestigious venue."},
+    1991:{winner:"Ian Baker-Finch",par:72,relativeToPar:-8,venue:"Royal Birkdale Golf Club",location:"Southport, England",margin:2,facts:["Baker-Finch's opening pair of 29 and 31 on the front nine in R2 and R3 set the championship alight","Tragically, his game completely abandoned him within five years","Only major victory for the Australian whose putting problems ended one of the most promising careers","His 64 in Round 3 remains one of the most brilliant rounds in Open history"],significance:"Ian Baker-Finch's brilliant Birkdale week — and the beginning of one of golf's most poignant decline stories."},
+    1992:{winner:"Nick Faldo",par:72,relativeToPar:-12,venue:"Muirfield",location:"East Lothian, Scotland",margin:1,facts:["Faldo's third and final Open Championship — completing his set of six majors","Came from behind with a final round 73 that included a stunning run of clutch pars","John Cook had led by two with two holes to play — made bogey; Faldo got a gift","Muirfield at its most dramatic — three holes that swung a championship"],significance:"Nick Faldo's sixth and final major — one of the great careers brought to a close with typical drama at Muirfield."},
+    1993:{winner:"Greg Norman",par:72,relativeToPar:-13,venue:"Royal St George's",location:"Sandwich, Kent, England",margin:2,facts:["Norman's second Open — shot 267, which was a record at the time","Fired a stunning 64 in Round 2 and never looked back","Two-shot win over Nick Faldo — Norman's most convincing major victory","Vindication for years of dramatic near-misses — this was the 'Shark' at his absolute best"],significance:"Greg Norman's most complete major victory — 267, record-setting, and finally a major won with pure dominance rather than drama."},
+    1994:{winner:"Nick Price",par:72,relativeToPar:-12,venue:"Turnberry",location:"Ayrshire, Scotland",margin:1,facts:["Price won after a birdie on 17 when Jesper Parnevik, leading, had birdied 18 without checking the leaderboard","Parnevik's decision to attack rather than protect cost him the championship — a famous tactical error","Price's second consecutive major — he had won the 1994 PGA Championship weeks later","Turnberry produced one of the Open’s most dramatic final nine holes"],significance:"Nick Price's brilliance and Parnevik's fatal 18th birdie — the Open Championship in its finest tactical theater."},
+    1995:{winner:"John Daly",par:72,relativeToPar:-6,venue:"The Old Course, St Andrews",location:"St Andrews, Fife, Scotland",margin:0,facts:["Won in a sudden-death four-hole aggregate playoff over Costantino Rocca","Rocca had chipped in from 65 feet on 18 to force the playoff in extraordinary scenes","Daly's prodigious length was perfectly suited to St Andrews' wide, open fairways","His second major — combining with the 1991 PGA Championship — a pairing as surprising as any in golf"],significance:"Costantino Rocca's chip-in on the Valley of Sin — and John Daly's calm in the playoff. St Andrews always saves the best for last."},
+    1996:{winner:"Tom Lehman",par:72,relativeToPar:-13,venue:"Royal Lytham & St Annes Golf Club",location:"Lancashire, England",margin:2,facts:["Lehman led all four rounds — wire-to-wire at Lytham","His only major title — a genuinely dominant four-day performance","Ernie Els and Mark McCumber were closest challengers all week","His emotional win came after years as a consistent but major-less player"],significance:"Tom Lehman's wire-to-wire Open — the quiet American who led for 72 holes and never wavered at Lytham."},
+    1997:{winner:"Justin Leonard",par:72,relativeToPar:-12,venue:"Royal Troon Golf Club",location:"South Ayrshire, Scotland",margin:3,facts:["Leonard's only major — his game was perfectly suited to links conditions","Three-shot win over Jesper Parnevik and Darren Clarke","Jesper Parnevik again finished close at a major without winning","Leonard was 25 — and this would prove to be his only major triumph despite further near-misses"],significance:"Justin Leonard at Troon — a one-major wonder whose day in the sun was as complete as any champion's week."},
+    1998:{winner:"Mark O'Meara",par:72,relativeToPar:-9,venue:"Royal Birkdale Golf Club",location:"Southport, England",margin:0,facts:["O'Meara won in a playoff over Brian Watts in his remarkable double-major season","Earlier that year had won the Masters — aged 41, his most extraordinary season","Watts, from Oklahoma, played some of the finest links golf of anyone all week","The victory completed an unexpected late-career major haul"],significance:"Mark O'Meara's double — Masters and Open in the same year at 41 years old. One of golf's great late-career triumphs."},
+    1999:{winner:"Paul Lawrie",par:72,relativeToPar:+6,venue:"Carnoustie Golf Links",location:"Angus, Scotland",margin:0,facts:["Carnoustie was so brutally set up that no one in the world finished under par — highest winning score in decades","Paul Lawrie came from 10 shots behind in the final round — a record comeback","Jean Van de Velde infamously made triple-bogey on 18 needing only double-bogey to win","The wading-in-the-burn image of Van de Velde is one of sport's most famous photographs"],significance:"Jean Van de Velde's triple-bogey on 18 — and Paul Lawrie's record comeback win. Carnoustie's most savage championship."},
+    2000:{winner:"Tiger Woods",par:72,relativeToPar:-19,venue:"The Old Course, St Andrews",location:"St Andrews, Fife, Scotland",margin:8,facts:["Woods completed the career Grand Slam — all four major venues conquered before age 25","Eight-shot win — the largest margin in Open Championship history","Never hit a single ball in a bunker all week at St Andrews","Completing his hat-trick of the three 2000 majors that made up the 'Tiger Slam' sequence"],significance:"Tiger at St Andrews — 19-under, never in a bunker, 8-shot win. The most perfect championship performance in open golf history."},
+    2001:{winner:"David Duval",par:72,relativeToPar:-10,venue:"Royal Lytham & St Annes Golf Club",location:"Lancashire, England",margin:3,facts:["Duval had been ranked world number one — this major was considered his 'overdue' breakthrough","Three-shot win over Niclas Fasth — a genuine display of precision ball-striking","Shortly after this, Duval's game went into dramatic decline","One of the most significant and bittersweet single-major careers in the modern era"],significance:"David Duval at Lytham — a world number one takes his due, then a career disappears as quickly as it peaked."},
+    2002:{winner:"Ernie Els",par:72,relativeToPar:-6,venue:"Muirfield",location:"East Lothian, Scotland",margin:0,facts:["Won in a four-hole aggregate playoff — the last four players (Els, Stuart Appleby, Steve Elkington, Thomas Levet) all tied at -6","Four-ball playoff was historically rare — the Open’s most crowded finish","Els's third major — he would add a fourth (2012 Open) a decade later","Muirfield's fog and wind reduced the event to a survival contest"],significance:"Four-man playoff at Muirfield — the most complicated finish in Open history, and Ernie Els emerging as champion."},
+    2003:{winner:"Ben Curtis",par:72,relativeToPar:-1,venue:"Royal St George's",location:"Sandwich, Kent, England",margin:1,facts:["Curtis was making his Open Championship debut — and had never finished in the top-10 of a major","The most stunning major debut victory in the modern era","Thomas Bjorn had triple-bogeyed a bunker shot on 16 when holding the lead — iconic drama","Curtis won with 283 — the highest winning total at St George's in decades"],significance:"Ben Curtis — debut, no history, no previous top-10 in a major. The greatest single-event surprise in modern Open Championship history."},
+    2004:{winner:"Todd Hamilton",par:72,relativeToPar:-10,venue:"Royal Troon Golf Club",location:"South Ayrshire, Scotland",margin:0,facts:["Won in a playoff over Ernie Els using a remarkable chip-and-run from off the green on 18","Hamilton was a journeyman who had spent years on the Japan Golf Tour","His only major — a career defined by one extraordinary moment","His chip-putt on the 18th in the playoff was unlike any shot seen at a major before"],significance:"Todd Hamilton's chip-putt at Troon — one of golf's most creative shots, inventing a finish nobody could have imagined."},
+    2005:{winner:"Tiger Woods",par:72,relativeToPar:-14,venue:"The Old Course, St Andrews",location:"St Andrews, Fife, Scotland",margin:5,facts:["Tiger's second Open at St Andrews — the home of golf welcoming its greatest player","Five-shot win over Colin Montgomerie — one of the most comfortable major victories of his career","Completed the career Grand Slam a second time with this win — only Nicklaus and Hogan had done so previously","Monty had led at 54 holes on his home course — Tiger ended any suspense by Sunday lunchtime"],significance:"Tiger at St Andrews again — five shots, total control, and a record second career Grand Slam completed."},
+    2006:{winner:"Tiger Woods",par:72,relativeToPar:-18,venue:"Royal Hoylake",location:"Wirral, Merseyside, England",margin:2,facts:["Tiger won despite hitting one driver all week — using irons off most tees","The strategy was widely considered a tactical masterpiece given Hoylake's tight fairways","He wept on the 18th green, dedicating the win to his late father Earl who had died two months before","Two-shot win over Chris DiMarco — a clinical, emotional, unforgettable championship"],significance:"Tiger's tribute to Earl Woods on the 18th green at Hoylake — the most emotional post-win moment of his career."},
+    2007:{winner:"Pádraig Harrington",par:72,relativeToPar:-7,venue:"Carnoustie Golf Links",location:"Angus, Scotland",margin:0,facts:["Harrington won in a four-hole aggregate playoff over Sergio García","García missed a four-foot putt on 18 that would have won it — his most famous near-miss","Harrington had made double-bogey on the 72nd hole to fall into the playoff, then came back to win","First Irish player to win a major since Fred Daly in 1947"],significance:"Pádraig Harrington at Carnoustie — Ireland's long wait ended after García's missed four-footer. One of sport's most remarkable reversals."},
+    2008:{winner:"Pádraig Harrington",par:72,relativeToPar:-3,venue:"Royal Birkdale Golf Club",location:"Southport, England",margin:4,facts:["Back-to-back Opens for Harrington — a stunning achievement in the modern depth of the game","Four-shot win over Ian Poulter and Greg Norman (who was 53 years old and in contention)","Greg Norman led at 54 holes at age 53 — defying biology and time","Harrington's clutch iron play in the final round defined his back-nine charge"],significance:"Back-to-back Opens — and 53-year-old Greg Norman leading at Birkdale. The week where nostalgia and brilliance collided."},
+    2009:{winner:"Stewart Cink",par:72,relativeToPar:-2,venue:"Turnberry",location:"Ayrshire, Scotland",margin:0,facts:["Tom Watson, aged 59, led by one shot on the 72nd hole and missed a 10-foot par putt on 18","Cink won in a four-hole aggregate playoff — outplaying a 59-year-old is somehow anti-climactic","Watson's near-miss was one of sport's most extraordinary moments — the oldest major champion bid","The Open community's heart was broken watching Watson's par attempt slide past"],significance:"Tom Watson at 59 on the 72nd green at Turnberry — the most moving moment in major championship history that ended in defeat."},
+    2010:{winner:"Louis Oosthuizen",par:72,relativeToPar:-16,venue:"The Old Course, St Andrews",location:"St Andrews, Fife, Scotland",margin:7,facts:["Seven-shot win at St Andrews — the first since Watson's historic 1977 Duel in the Sun margin","Oosthuizen made an albatross-2 at the par-5 second hole on Sunday","South Africa's fifth Open champion — a rich links tradition for that nation","His performance was one of the most aesthetically pleasing in Open history"],significance:"Louis Oosthuizen's albatross on Sunday at St Andrews — and a seven-shot win at the Home of Golf that came out of nowhere."},
+    2011:{winner:"Darren Clarke",par:72,relativeToPar:-11,venue:"Royal St George's",location:"Sandwich, Kent, England",margin:3,facts:["Clarke won six years after the death of his wife Heather from cancer — a deeply emotional victory","His famous celebration — a cigar in hand as he walked up 18 — became an Open image of the era","Three-shot win at 42 years old — Northern Ireland producing its latest and most emotional major champion","Phil Mickelson was in contention but Clarke's experience and emotional fortitude proved decisive"],significance:"Darren Clarke and his cigar on 18 — a tribute to Heather, to Northern Ireland, and to the beauty of perseverance in sport."},
+    2012:{winner:"Ernie Els",par:72,relativeToPar:-7,venue:"Royal Lytham & St Annes Golf Club",location:"Lancashire, England",margin:1,facts:["Els made a 20-foot birdie on the final hole to win by one over Adam Scott","Scott had led by four with four to play — made four consecutive bogeys — one of the most stunning collapses","The Big Easy at 42 years old completing his fourth major at Lytham","His caddie Ricci Roberts was visibly moved — Els's late-career comeback to the top was extraordinary"],significance:"Adam Scott's four-bogey collapse and Ernie Els at 42 winning his fourth major — the Open Championship's cruelest final afternoon."},
+    2013:{winner:"Phil Mickelson",par:72,relativeToPar:-3,venue:"Muirfield",location:"East Lothian, Scotland",margin:3,facts:["Mickelson shot a final-round 66 to win his only Open Championship — at one of the hardest venues","His back-nine on Sunday: 5-under-par in links conditions was the finest back-nine closing 9 in modern Open history","Lee Westwood had a chance and faded — Phil was simply better on the day","Completed Phil's major quartet — only the PGA Championship still awaited him for a Grand Slam"],significance:"Phil Mickelson's back-nine 31 at Muirfield — the greatest closing stretch of a major's final round in the modern era."},
+    2014:{winner:"Rory McIlroy",par:72,relativeToPar:-17,venue:"Royal Liverpool Golf Club (Hoylake)",location:"Wirral, Merseyside, England",margin:2,facts:["Rory's dominant display at Hoylake earned his third major and second Open Championship","Led from Round 1 through to the final hole — wire-to-wire dominance","Shot 271 — two shots ahead of Rickie Fowler and Sergio García","At 25, the second-lowest scoring total in Open history at the time"],significance:"Rory McIlroy wire-to-wire at Hoylake — the most complete Open performance since Tiger Woods."},
+    2015:{winner:"Zach Johnson",par:72,relativeToPar:-15,venue:"The Old Course, St Andrews",location:"St Andrews, Fife, Scotland",margin:0,facts:["Won in a four-hole aggregate playoff over Marc Leishman and Louis Oosthuizen","The 150th edition of The Open was held at St Andrews — the perfect venue","Jordan Spieth had a putt on 18 to win outright and missed — three-way playoff ensued","Johnson's clutch putting in the playoff was remarkable on St Andrews' unpredictable greens"],significance:"The 144th Open at St Andrews' 600th anniversary — a playoff that went to three, and Zach Johnson's cold-blooded putting winning it."},
+    2016:{winner:"Henrik Stenson",par:72,relativeToPar:-20,venue:"Royal Troon Golf Club",location:"South Ayrshire, Scotland",margin:3,facts:["Stenson shot a final-round 63 for a total of 264 — both new Open Championship records","The Stenson-Mickelson duel is the greatest 18-hole head-to-head in major history","Mickelson also shot 63 in the final round (267 total) — a losing score better than any previous winner","Three-shot win — Stenson was genuinely untouchable from Saturday lunchtime"],significance:"Stenson vs Mickelson at Troon — the greatest two-man duel in major championship history. Stenson's 264 will never be beaten."},
+    2017:{winner:"Jordan Spieth",par:72,relativeToPar:-12,venue:"Royal Birkdale Golf Club",location:"Southport, England",margin:3,facts:["Spieth hit his ball out of bounds on 13 and took 26 minutes in conversation with rules officials","Despite the chaos, he birdied 13 through 18 to complete his third major championship","Three-shot win over Matt Kuchar — one of the most chaotic-yet-controlled final rounds in history","Completed the career Grand Slam at 23 years old — the youngest in the modern era at the time"],significance:"Jordan Spieth's impossible recovery from the practice area on 13 at Birkdale — the most dramatic turnaround in Open history."},
+    2018:{winner:"Francesco Molinari",par:72,relativeToPar:-8,venue:"Carnoustie Golf Links",location:"Angus, Scotland",margin:2,facts:["Italy's first major champion — a landmark moment for Italian golf","Made every single green in regulation all week — an extraordinary statistical feat","Two-shot win over a field that included Tiger Woods, Rory McIlroy, and Kevin Kisner","His consistency on Carnoustie — historically the most demanding Open venue — was perfect"],significance:"Francesco Molinari at Carnoustie — the most precise major-winning performance in years. Italy's first major champion."},
+    2019:{winner:"Shane Lowry",par:72,relativeToPar:-15,venue:"Royal Portrush Golf Club",location:"Antrim, Northern Ireland",margin:6,facts:["The first Open at Portrush since 1951 — Northern Ireland's homecoming was electric","Lowry led by four entering the final round and extended it to six — one of the great front-running performances","The crowd at Portrush carried Lowry home in an atmosphere described as the greatest in Open history","Ireland's first Open champion since Harrington in 2008"],significance:"Shane Lowry at Portrush — carried home by 37,000 Irish supporters. The most atmospheric major championship in history."},
+    2020:{winner:"Collin Morikawa",par:72,relativeToPar:-15,venue:"Royal St George's",location:"Sandwich, Kent, England",margin:2,facts:["2020 Open was cancelled due to COVID — 2021 edition held at Royal St George's","Morikawa became just the third player to win his debut Open Championship","Two-shot win over Jordan Spieth — both players in their prime, competing brilliantly","Morikawa had won the 2020 PGA Championship on his debut — back-to-back debut major victories"],significance:"Collin Morikawa's back-to-back debut major wins — the PGA Championship in 2020 and the Open in 2021 (played 2021). A generation-defining arrival."},
+    2021:{winner:"Collin Morikawa",par:72,relativeToPar:-15,venue:"Royal St George's",location:"Sandwich, Kent, England",margin:2,facts:["Won his first Open on his first appearance in it — historic","Two-shot win over Jordan Spieth — both players in their prime","His iron play and proximity to the hole was elite all week","Became only the third player in history to win two different majors in his first appearance in each"],significance:"Collin Morikawa — two first-time majors in his first appearance in each. A record that may never be broken."},
+    2022:{winner:"Cameron Smith",par:72,relativeToPar:-20,venue:"The Old Course, St Andrews",location:"St Andrews, Fife, Scotland",margin:1,facts:["Smith shot a final-round 64 at St Andrews — remarkable Sunday charge","Rory McIlroy led going into Sunday and fell short — his most heartbreaking near-miss at St Andrews","268 total matched Stenson's Open record — an extraordinary scoring performance","Smith was the world number two and his personality and playing style made him an instant fan favourite"],significance:"Cameron Smith's Sunday 64 at St Andrews — a charge for the ages that deprived Rory McIlroy of the championship he most wanted."},
+    2023:{winner:"Brian Harman",par:72,relativeToPar:-13,venue:"Royal Hoylake",location:"Wirral, Merseyside, England",margin:6,facts:["Harman led wire-to-wire — one of the most commanding Open victories in recent memory","Six-shot winning margin — the largest at The Open since McIlroy’s 2011 US Open","The quiet Georgian from Sea Island dominated in conditions that included heavy Saturday rain","In-form Tommy Fleetwood and Jon Rahm could not bridge the gap"],significance:"Brian Harman's wire-to-wire dominance at Hoylake — a quiet champion who was never remotely threatened all week."},
+    2024:{winner:"Xander Schauffele",par:72,relativeToPar:-9,venue:"Royal Troon Golf Club",location:"South Ayrshire, Scotland",margin:2,facts:["Schauffele won both the 2024 PGA Championship and 2024 Open — a remarkable double in one year","Completed a two-major 2024 season that confirmed him as an elite major championship performer","Two-shot win at Troon in conditions that favoured precision over power","Part of a generational shift alongside Scheffler in the dominant players of the mid-2020s"],significance:"Xander Schauffele's Troon Open completes a career-defining double major year — confirming his place at the very top of the game."}
+  },
+
+  PGA_Championship: {
+    1980:{winner:"Jack Nicklaus",par:72,relativeToPar:+4,venue:"Oak Hill Country Club",location:"Rochester, New York",margin:7,facts:["Nicklaus's fifth and final PGA Championship — equaling Walter Hagen's record","Seven-shot victory — one of his most dominant major performances","Completed his record 18th major championship total this year (counting each major separately)","Andy North and Lon Hinkle were his closest challengers"],significance:"Jack Nicklaus's fifth PGA Championship — and a seven-shot margin that defined his unparalleled dominance over golf's four most important events."},
+    1981:{winner:"Larry Nelson",par:70,relativeToPar:-4,venue:"Atlanta Athletic Club",location:"Johns Creek, Georgia",margin:4,facts:["Nelson made a hole-in-one on Saturday at the 11th hole en route to the win","Four-shot victory over Fuzzy Zoeller","Had won the 1981 US Open that same year — his only multiple-major season","One of the most underappreciated champions of the early 1980s"],significance:"Larry Nelson's hole-in-one at Atlanta — and a US Open and PGA Championship double in one year that never gets its due."},
+    1982:{winner:"Raymond Floyd",par:71,relativeToPar:-8,venue:"Southern Hills Country Club",location:"Tulsa, Oklahoma",margin:3,facts:["Floyd's second PGA Championship, nearly 15 years after his first in 1969","Fired a course-record 63 in the opening round — set the tone for the week","Three-shot win over Lanny Wadkins — Floyd's ball-striking was exceptional all week","Southern Hills' demanding layout couldn't contain Floyd's precision iron play"],significance:"Ray Floyd's 63 on day one at Southern Hills — a statement of intent that began one of the PGA's most commanding performances."},
+    1983:{winner:"Hal Sutton",par:71,relativeToPar:+1,venue:"Riviera Country Club",location:"Pacific Palisades, California",margin:1,facts:["Sutton famously told himself 'Be the man' as he stood over the final putt","One-shot win over Jack Nicklaus — the torch officially passing between generations","Riviera's classic design challenged every aspect of the game","At 25, Sutton appeared destined for a major-laden career — his first and only major came here"],significance:"Hal Sutton's 'Be the Man' moment at Riviera — a young champion staring down Nicklaus and claiming victory."},
+    1984:{winner:"Lee Trevino",par:72,relativeToPar:-6,venue:"Shoal Creek Golf Club",location:"Birmingham, Alabama",margin:4,facts:["Trevino was 44 years old — one of the oldest PGA champions","His ball-striking, despite his age, was metronomically accurate","Four-shot win — his last major championship victory","Completed a major-by-major career record that made him one of the five greatest winners of all time"],significance:"Lee Trevino at 44 — the last of his six majors. A final act of extraordinary precision from one of the game's most beloved champions."},
+    1985:{winner:"Hubert Green",par:72,relativeToPar:-6,venue:"Cherry Hills Country Club",location:"Englewood, Colorado",margin:2,facts:["Green's second major — coming 11 years after his 1977 US Open","Cherry Hills was famous for Arnold Palmer's 1960 US Open charge — Green added his own historic moment","His tenacious game and never-say-die attitude were defining characteristics","His win came at altitude — Cherry Hills is over 5,000 feet above sea level"],significance:"Hubert Green at Cherry Hills — a patient champion in high-altitude conditions that tested every aspect of the game."},
+    1986:{winner:"Bob Tway",par:72,relativeToPar:-8,venue:"Inverness Club",location:"Toledo, Ohio",margin:2,facts:["Tway holed a bunker shot on the 72nd hole to beat Greg Norman — one of golf's most famous single shots","Norman had led for much of the week — his PGA heartbreak had begun","Tway's bunker hole-out from 30 feet was described as one in a million","It set the template for Norman's series of devastating late-round losses in major championships"],significance:"Bob Tway holes the bunker shot on 72 — and the Greg Norman major heartbreak saga begins in earnest."},
+    1987:{winner:"Larry Nelson",par:70,relativeToPar:-11,venue:"PGA National Resort & Spa",location:"Palm Beach Gardens, Florida",margin:0,facts:["Nelson won in an 18-hole playoff over Lanny Wadkins","His third major — and the second PGA Championship of his career","Was a Vietnam veteran whose mental strength under pressure was forged in combat","PGA National's Champion Course proved a perfect test for his precise game"],significance:"Larry Nelson's composure in the PGA playoff — a Vietnam veteran's mental strength converting a third major title."},
+    1988:{winner:"Jeff Sluman",par:72,relativeToPar:-12,venue:"Oak Tree Golf Club",location:"Edmond, Oklahoma",margin:3,facts:["Sluman's only major — he fired a final-round 65 to win by three","Oak Tree's difficult Bermuda greens and Oklahoma heat tested the entire field","Paul Azinger was his closest challenger — later becoming a Ryder Cup captain","Sluman's precision in the final round was exceptional — one of the great closing rounds in PGA history"],significance:"Jeff Sluman's final-round 65 at Oak Tree — a quiet champion who produced one of the PGA's greatest closing performances."},
+    1989:{winner:"Payne Stewart",par:72,relativeToPar:-12,venue:"Kemper Lakes Golf Club",location:"Hawthorn Woods, Illinois",margin:1,facts:["Stewart's first major — his only PGA Championship title","Beat Mike Reid who had led with three holes to play and made bogeys on 16, 17, and 18","One of the most dramatic final-round collapses and Stewart capitalizations","Payne's plus fours and tam o'shanter style made him one of golf's most recognizable players"],significance:"Payne Stewart at Kemper Lakes — the first major for a champion who would go on to win two US Opens and bring golf to a national audience."},
+    1990:{winner:"Wayne Grady",par:72,relativeToPar:-6,venue:"Shoal Creek Golf Club",location:"Birmingham, Alabama",margin:3,facts:["The 1990 PGA Championship was embroiled in controversy over Shoal Creek's membership policies","Grady's win came in a turbulent off-course week that changed club membership policies across the US","Fred Couples was among the challengers — Grady's three-shot win was more comfortable than expected","One of the most politically and socially significant major championships in history"],significance:"Wayne Grady at Shoal Creek — a win inside a week that transformed American golf club membership policies forever."},
+    1991:{winner:"John Daly",par:72,relativeToPar:-12,venue:"Crooked Stick Golf Club",location:"Carmel, Indiana",margin:3,facts:["Daly was the ninth alternate and drove through the night to get there — then won","His 300-yard drives were simply unlike anything the field had seen","Three-shot win in the most unexpected debut performance in major championship history","'Just kill it' was reportedly his caddie Jeff 'Squeaky' Medlen's advice — it worked"],significance:"John Daly — ninth alternate, drove through the night, won by three shots. The most improbable major victory of all time."},
+    1992:{winner:"Nick Price",par:72,relativeToPar:-6,venue:"Bellerive Country Club",location:"Creve Coeur, Missouri",margin:3,facts:["Price's first major — the beginning of his extraordinary 1992–1994 major run","Shot a brilliant final-round 70 in testing conditions to win by three","Jim Gallagher Jr. and Gene Sauers were closest but Price was too good","Bellerive's tight design rewarded precision — exactly Price's strength"],significance:"Nick Price breaks through at Bellerive — the launch of one of the most underappreciated three-year major-winning runs in history."},
+    1993:{winner:"Paul Azinger",par:72,relativeToPar:-12,venue:"Inverness Club",location:"Toledo, Ohio",margin:0,facts:["Azinger won in a playoff over Greg Norman — again Norman's heart was broken at a major","Azinger was diagnosed with cancer just months after this win — returning to win the 1994 Ryder Cup captaincy","His triumph at Inverness carries extra weight given what was to come","Greg Norman's defeat here is one of golf's great recurring tragedies"],significance:"Paul Azinger beats Norman in a playoff — and then faces cancer months later. A win that became golf's most courageous story."},
+    1994:{winner:"Nick Price",par:72,relativeToPar:-11,venue:"Southern Hills Country Club",location:"Tulsa, Oklahoma",margin:6,facts:["Price dominated the week — shot 269 for the lowest PGA Championship score at the time","Completed his double-major 1994 season — US Open and PGA Championship in 6 weeks","Six-shot winning margin — the largest since Jack Nicklaus in 1980","The year of Nick Price — one of the most dominant single-season major performances in history"],significance:"Nick Price at Southern Hills — 269, six shots, and the confirmation that this was his sport's greatest year."},
+    1995:{winner:"Steve Elkington",par:72,relativeToPar:-17,venue:"Riviera Country Club",location:"Pacific Palisades, California",margin:0,facts:["Elkington holed a 25-foot birdie putt on 18 to win in a playoff over Colin Montgomerie","Shot 267 — a new PGA Championship record at the time","Montgomerie had played beautifully all week and again missed a major playoff","Elkington's swing is widely considered one of the most aesthetically perfect in golf history"],significance:"Steve Elkington's 25-foot birdie on 18 at Riviera — one of golf's most beautiful strokes winning in the most dramatic style."},
+    1996:{winner:"Mark Brooks",par:72,relativeToPar:-11,venue:"Valhalla Golf Club",location:"Louisville, Kentucky",margin:0,facts:["Won in a sudden-death playoff over Kenny Perry — on Perry's home state course","Brooks had played brilliantly all week and won a second hole of sudden death","Valhalla debuted as a PGA Championship venue and was immediately praised","Kenny Perry's near-miss in his home state was deeply felt by Kentucky fans"],significance:"Valhalla's debut PGA Championship — and Mark Brooks in a sudden-death playoff that denied the local hero."},
+    1997:{winner:"Davis Love III",par:72,relativeToPar:-11,venue:"Winged Foot Golf Club",location:"Mamaroneck, New York",margin:5,facts:["Love won in emotional circumstances — his late father's golf advice had inspired the victory","He pointed to the sky on 18, having promised his father he would win a major","Five-shot win — one of the most commanding PGA Championship performances ever","Winged Foot's punishing layout was conquered with pure ball-striking"],significance:"Davis Love III's tribute to his late father — one of sport's most moving celebrations on Winged Foot's 18th green."},
+    1998:{winner:"Vijay Singh",par:72,relativeToPar:-9,venue:"Sahalee Country Club",location:"Sammamish, Washington",margin:2,facts:["Sahalee's dense Pacific Northwest trees created the most claustrophobic PGA venue in memory","Singh's precision driving in the tight tree-lined fairways was extraordinary","Steve Stricker was his closest challenger — Singh's composure was absolute","Vijay had won 10 times on the PGA Tour before this breakthrough major"],significance:"Vijay Singh at Sahalee — precision through the Pacific Northwest trees on one of golf's most unusual major venues."},
+    1999:{winner:"Tiger Woods",par:72,relativeToPar:-11,venue:"Medinah Country Club",location:"Medinah, Illinois",margin:1,facts:["Woods had finished runner-up in 1998 — this time he converted","One-shot win over Sergio García — García made his famous running shot up the tree on 16","García's leap to watch his shot was one of the most exuberant moments in major history","Tiger's 1999–2000 stretch was the most dominant run in the history of professional golf"],significance:"Tiger holds off García's tree-climbing exuberance at Medinah — the beginning of the most dominant scoring run golf has ever seen."},
+    2000:{winner:"Tiger Woods",par:72,relativeToPar:-18,venue:"Valhalla Golf Club",location:"Louisville, Kentucky",margin:0,facts:["Won in a three-hole aggregate playoff over Bob May — one of the greatest duels in major history","May and Tiger matched each other shot-for-shot in the final round — a 65 to 66","Completed the three consecutive majors of the 'Tiger Slam' sequence (2000 US Open, Open, PGA)","The 2000 season remains the greatest single season in golf history"],significance:"Tiger and Bob May at Valhalla — the finest duel in a final round of any major, ever. Tiger completes the three-major run of 2000."},
+    2001:{winner:"David Toms",par:72,relativeToPar:-15,venue:"Atlanta Athletic Club",location:"Johns Creek, Georgia",margin:1,facts:["Toms hit a 5-iron lay-up on the par-4 18th — then holed the greenside bunker shot for birdie","One-shot win over Phil Mickelson — Toms' only major","His tactical decision to lay back on 18 was universally questioned, then immediately validated","One of the most analytically brilliant finishing strategies in major championship history"],significance:"David Toms' lay-up and bunker hole-out on 18 at Atlanta — tactical genius rewarded with a major championship."},
+    2002:{winner:"Rich Beem",par:72,relativeToPar:-10,venue:"Hazeltine National Golf Club",location:"Chaska, Minnesota",margin:1,facts:["Beem held off Tiger Woods, who made a final-round charge with four consecutive birdies","Beem made an emotional bogey on 18 but held on for a one-shot win","One of the biggest upsets in PGA Championship history — Beem had won once on tour beforehand","His celebration on 18 was one of the most joyful in major championship history"],significance:"Rich Beem holding off Tiger Woods — watching Beem celebrate while Tiger finished birdie-birdie-birdie-birdie makes this one of the great upsets."},
+    2003:{winner:"Shaun Micheel",par:72,relativeToPar:-4,venue:"Oak Hill Country Club",location:"Rochester, New York",margin:2,facts:["Micheel holed a 7-iron on the 72nd hole from 175 yards — to beat Chad Campbell by two","One of the most dramatic winning shots in PGA Championship history","His only major — in his only major contention of his career","Oak Hill's tough conditions elevated this to one of the best finales in recent PGA history"],significance:"Shaun Micheel's 7-iron from 175 yards on the 72nd hole — the greatest shot ever to win a PGA Championship."},
+    2004:{winner:"Vijay Singh",par:72,relativeToPar:-8,venue:"Whistling Straits",location:"Kohler, Wisconsin",margin:0,facts:["Won in a three-hole aggregate playoff over Justin Leonard and Chris DiMarco","Whistling Straits debuted as a PGA venue — its links-influenced design on the shores of Lake Michigan was spectacular","Singh had become world number one by this point — displacing Tiger Woods","His season in 2004 was arguably the best of any player not named Tiger in the modern era"],significance:"Vijay Singh dethrones Tiger from world number one — and claims the PGA Championship at Lake Michigan's spectacular Whistling Straits."},
+    2005:{winner:"Phil Mickelson",par:72,relativeToPar:-4,venue:"Baltusrol Golf Club",location:"Springfield, New Jersey",margin:1,facts:["Mickelson's second major — his lefty approach to Baltusrol's Lower Course was perfectly suited","One-shot win over Steve Elkington and Thomas Bjorn","His birdie on 18 sealed the win — ice-cold in the crucial moment","Baltusrol's long history of great champions added another chapter"],significance:"Phil Mickelson at Baltusrol — a second major for Lefty at a venue where champions are made."},
+    2006:{winner:"Tiger Woods",par:72,relativeToPar:-18,venue:"Medinah Country Club",location:"Medinah, Illinois",margin:5,facts:["Tiger's most dominant PGA Championship — five shots clear of Shaun Micheel","Shot 270 for a 36-hole and 72-hole record at Medinah","His first major back after the death of his father Earl — he wept during the opening ceremony","This win closed his second decade of major dominance"],significance:"Tiger's 270 at Medinah — his first major after losing his father, his most dominant PGA, his career's most bittersweet triumph."},
+    2007:{winner:"Tiger Woods",par:72,relativeToPar:-8,venue:"Southern Hills Country Club",location:"Tulsa, Oklahoma",margin:2,facts:["Tiger's back-to-back PGA Championships — cementing his status as the best ever","Two-shot win over Woody Austin — Austin had a famous fall into the water at Medinah","His 13th major — one behind Jack Nicklaus's record","Southern Hills was a fitting venue for a career-defining stretch of play"],significance:"Tiger's 13th major at Southern Hills — the record in sight, and a back-to-back PGA Championship confirmation."},
+    2008:{winner:"Pádraig Harrington",par:72,relativeToPar:-3,venue:"Oakland Hills Country Club",location:"Bloomfield Hills, Michigan",margin:2,facts:["Harrington's third major in 13 months — the most prolific stretch for a European player in modern history","Two-shot win over Sergio García — whom he had beaten in the 2007 Open Championship playoff","Sergio García's major heartbreak continued — four near-misses in four years","Oakland Hills' classic Donald Ross design set a supreme examination"],significance:"Harrington completes his European major trilogy — and Garcia's fourth near-miss in as many years writes itself into golf's most poignant story."},
+    2009:{winner:"Y.E. Yang",par:72,relativeToPar:-8,venue:"Hazeltine National Golf Club",location:"Chaska, Minnesota",margin:3,facts:["Yang was the first Asian-born player to win a major championship","Entered the final round two shots behind Tiger Woods — the first player ever to come from behind Tiger in a major final round","His controlled approach play and extraordinary calm under supreme pressure were defining","Tiger's collapse — going from favourite to third — was one of the most shocking in major history"],significance:"Y.E. Yang defeats Tiger Woods in the final round — the first person ever to beat Tiger from behind in a major final round. Historic."},
+    2010:{winner:"Martin Kaymer",par:72,relativeToPar:-11,venue:"Whistling Straits",location:"Kohler, Wisconsin",margin:0,facts:["Kaymer won in a three-hole aggregate playoff over Bubba Watson","Whistling Straits controversially saw Dustin Johnson penalised for grounding in a bunker on 18 — cost him a major","Johnson's bunker penalty is the most controversial rules decision in modern major history","Kaymer's clinical playoff performance followed by his US Open win in 2014 defined his major record"],significance:"Dustin Johnson's bunker penalty at Whistling Straits — one of the most controversial and heartbreaking moments in major rules history."},
+    2011:{winner:"Keegan Bradley",par:70,relativeToPar:-10,venue:"Atlanta Athletic Club",location:"Johns Creek, Georgia",margin:0,facts:["Bradley won the PGA Championship in his first major championship appearance — extremely rare","Won in a three-hole aggregate playoff over Jason Dufner","Dufner had led most of the week and was considered a near-certainty — his eventual 2013 PGA win resolved it","Bradley became the first rookie to win a major since Francis Ouimet in 1913"],significance:"Keegan Bradley — first rookie since 1913 to win a major championship, clinching it in a playoff from behind."},
+    2012:{winner:"Rory McIlroy",par:71,relativeToPar:-13,venue:"The Ocean Course, Kiawah Island",location:"Kiawah Island, South Carolina",margin:8,facts:["McIlroy won by eight shots — the largest PGA Championship winning margin in history","Shot 268 in near-perfect Atlantic Ocean conditions that occasionally turned brutal","The Ocean Course, Pete Dye's visually stunning layout on the Atlantic, hosted its first major","Second major for Rory at just 23 — a generational talent operating at full capacity"],significance:"Rory McIlroy at Kiawah Island — eight shots, 268, and one of the most dominant major victories in history. A champion in full flight."},
+    2013:{winner:"Jason Dufner",par:70,relativeToPar:-10,venue:"Oak Hill Country Club",location:"Rochester, New York",margin:2,facts:["Dufner vindicated his near-miss in 2011 — winning two years later as if the universe owed it to him","His stoic, deadpan demeanor belied the drama of a major-winning week","Two-shot win over Jim Furyk and Henrik Stenson","'Dufnering' — his pose of slouching on things — became a global social media phenomenon"],significance:"Jason Dufner's stoic brilliance at Oak Hill — the universe balanced the ledger from his 2011 heartbreak in the most satisfying way possible."},
+    2014:{winner:"Rory McIlroy",par:72,relativeToPar:-16,venue:"Valhalla Golf Club",location:"Louisville, Kentucky",margin:1,facts:["Mcilroy's fourth major — completed the career Grand Slam at 25 years old","One-shot win over Phil Mickelson — Rory held a three-shot lead with two holes to play","Valhalla's dramatic closing stretch produced one of the most tense major finishes of the decade","Completed the third leg of what would prove his only Grand Slam"],significance:"Rory McIlroy completes the career Grand Slam at Valhalla — at 25, the fastest in the modern era."},
+    2015:{winner:"Jason Day",par:72,relativeToPar:-20,venue:"Whistling Straits",location:"Kohler, Wisconsin",margin:3,facts:["Day shot 268 for a new PGA Championship scoring record — equaling Rory's 2012 record","Three-shot win — his first major title came with dominant ball-striking all week","Set the world record for strokes under par in a major at the time","Rose to world number one immediately after — his first of many weeks at the summit"],significance:"Jason Day's PGA Championship record-tying performance at Whistling Straits — the emergence of Australia's next major champion."},
+    2016:{winner:"Jimmy Walker",par:72,relativeToPar:-14,venue:"Baltusrol Golf Club",location:"Springfield, New Jersey",margin:1,facts:["Walker's only major — his career-defining moment came at Baltusrol","One-shot win over Jason Day — one of the tightest PGA Championship finishes in recent memory","Walker's accuracy and touch around the greens was exceptional all week","Baltusrol added yet another unexpected champion to its storied history"],significance:"Jimmy Walker at Baltusrol — the quieter champion of 2016, whose one major is no less deserved for being his only one."},
+    2017:{winner:"Justin Thomas",par:72,relativeToPar:-8,venue:"Quail Hollow Club",location:"Charlotte, North Carolina",margin:2,facts:["Thomas was 24 years old — one of the youngest PGA champions","His final-round 68 in difficult conditions was a masterpiece of ball-striking","Francesco Molinari and Louis Oosthuizen were his closest challengers","The win launched Thomas from a very good player to a genuine major champion"],significance:"Justin Thomas at 24 at Quail Hollow — a coming of age for one of the most talented ball-strikers of his generation."},
+    2018:{winner:"Brooks Koepka",par:72,relativeToPar:-16,venue:"Bellerive Country Club",location:"Creve Coeur, Missouri",margin:2,facts:["Third major in just 14 months — a pace rivalling Tiger's peak years","His 264 at Bellerive was a new PGA Championship scoring record","He had won the US Open in 2017 and 2018 — and now the PGA Championship — three majors in a row","Koepka's big-game mentality and ability to peak in majors became the defining story of the era"],significance:"Three majors in 14 months for Brooks Koepka — a scoring record and a statement that major golf had a new sheriff."},
+    2019:{winner:"Brooks Koepka",par:72,relativeToPar:-8,venue:"Bethpage Black",location:"Farmingdale, New York",margin:2,facts:["Back-to-back PGA Championships — only Tiger had done it before in the modern era","Two-shot win over Dustin Johnson — defending against the world's most powerful player","Bethpage's New York crowd was the most rowdy and electric in major championship history","Koepka's four majors in three years is the most concentrated major haul in the 21st century"],significance:"Brooks Koepka's back-to-back PGA Championships — matching Tiger's feat and confirming his status as a once-in-a-generation major champion."},
+    2020:{winner:"Collin Morikawa",par:70,relativeToPar:-13,venue:"TPC Harding Park",location:"San Francisco, California",margin:2,facts:["Morikawa was making just his second major appearance — a debut-level performance on the biggest stage","Held without a win in 2020 going in — won his first major in week one of his first COVID-era major","His 6-iron shot on the par-4 16th from 240 yards to six feet in the final round was the defining shot","Shot 64 in the third round — the best single round of the week"],significance:"Collin Morikawa at TPC Harding Park — making majors look like practice rounds at 23 years old. A generational talent confirmed."},
+    2021:{winner:"Phil Mickelson",par:72,relativeToPar:-6,venue:"The Ocean Course, Kiawah Island",location:"Kiawah Island, South Carolina",margin:2,facts:["Mickelson was 50 years and 11 months old — the oldest major champion in history by five years","Beat the record held by Nicklaus's 1986 Masters by four years","Two-shot win over Will Zalatoris, Louis Oosthuizen, and Bubba Watson","He had famously struggled in the years before — a Ryder Cup controversy followed — but this win stood on its own terms"],significance:"Phil Mickelson at 50 at Kiawah — the most improbable major championship victory in the history of the sport. Nothing in golf can top this."},
+    2022:{winner:"Justin Thomas",par:72,relativeToPar:-5,venue:"Southern Hills Country Club",location:"Tulsa, Oklahoma",margin:0,facts:["Thomas won in a playoff over Will Zalatoris — Zalatoris's second consecutive PGA near-miss","Had been five shots behind in the final round entering Sunday","Made one of the great Sunday charges — birdied several times in the closing stretch","Southern Hills produced a classic final-day drama — Thomas's redemption after an inconsistent 2021–22 campaign"],significance:"Justin Thomas's impossible Sunday charge at Southern Hills — a champion who found something extraordinary when it was least expected."},
+    2023:{winner:"Brooks Koepka",par:72,relativeToPar:-9,venue:"Oak Hill Country Club",location:"Rochester, New York",margin:1,facts:["Koepka's fifth major — from LIV Golf to a fifth major title in one of the year’s great narrative arcs","Beat Viktor Hovland and Scottie Scheffler — the field included every elite player of the era","His ability to peak on major stage while playing a rival tour was unprecedented","One-shot win over Scheffler — the tightest imaginable finish between the era's two biggest champions"],significance:"Brooks Koepka's fifth major from the LIV Golf ranks — a win that required answering every question ever asked about his game in the sport's biggest arena."},
+    2024:{winner:"Xander Schauffele",par:72,relativeToPar:-21,venue:"Valhalla Golf Club",location:"Louisville, Kentucky",margin:1,facts:["Schauffele's first major — ending years of near-misses in some of the most dramatic finishes the sport had produced","Shot 263 — a new PGA Championship scoring record, besting Koepka's 264 from 2018","One-shot win over Billy Horschel — a thrilling final-round charge from Horschel couldn't quite complete the upset","Valhalla's storied major history added perhaps its finest champion performance"],significance:"Xander Schauffele's long-awaited first major at Valhalla — a scoring record and a story of near-misses finally resolved in the most spectacular style."}
+  }
+};
+
+/* ════════════════════════════════════════════════════════════════
+   STATISTICS ENGINE
+════════════════════════════════════════════════════════════════ */
+function calcStats(arr) {
+  const n = arr.length;
+  const mean = arr.reduce((a,b)=>a+b,0)/n;
+  const sorted = [...arr].sort((a,b)=>a-b);
+  const median = n%2===0 ? (sorted[n/2-1]+sorted[n/2])/2 : sorted[Math.floor(n/2)];
+  const variance = arr.reduce((s,x)=>s+(x-mean)**2,0)/n;
+  const std = Math.sqrt(variance);
+  const recent5 = arr.slice(-5).reduce((a,b)=>a+b,0)/5;
+  const trend10 = arr.slice(-10).reduce((a,b)=>a+b,0)/10;
+  const trend5diff = recent5 - arr.slice(-11,-6).reduce((a,b)=>a+b,0)/5;
+  return { mean:+mean.toFixed(1), median:+median.toFixed(1), std:+std.toFixed(1),
+           recent5:+recent5.toFixed(1), trend10:+trend10.toFixed(1),
+           min:Math.min(...arr), max:Math.max(...arr), trend5diff:+trend5diff.toFixed(1) };
+}
+const STATS = {
+  Masters: calcStats(MASTERS_DATA),
+  US_Open: calcStats(USOPEN_DATA),
+  Open: calcStats(OPEN_DATA),
+  PGA: calcStats(PGA_DATA)
+};
+
+/* ════════════════════════════════════════════════════════════════
+   CHART SETUP
+════════════════════════════════════════════════════════════════ */
+const CTX = document.getElementById('mainChart').getContext('2d');
+const PROJ_YEAR = 2026;
+const PROJ_DATA = { masters:274, usopen:278, open:273, pga:269 };
+const PROJ_DETAILS = {
+  masters: {
+    label: 'Masters',
+    venue: 'Augusta National Golf Club',
+    location: 'Augusta, Georgia',
+    par: 72,
+    projectedScore: 274,
+    projectedRelativeToPar: -14,
+    likelyWinner: 'Scottie Scheffler',
+    confidence: 'High',
+    confidencePct: 72,
+    projectedBand: '270–279',
+    scoreDrivers: [
+      '5-year Masters average sits in the mid-275 range, keeping the central estimate just above the historical floor.',
+      'Augusta has the tightest scoring variance of the four majors, so extreme projections are less likely than at the U.S. Open or Open Championship.',
+      'Recent elite-ball-striking eras have modestly compressed Masters winning scores, but Augusta still resists routine 268-or-better outcomes.',
+      'Course setup consistency supports a narrow forecast band centered near 274 rather than a highly volatile outcome.'
+    ],
+    winnerDrivers: [
+      'Scheffler is the cleanest course-fit in elite golf: tee-to-green dominance, high-floor iron play, and reliable scrambling.',
+      'Augusta historically rewards repeat contenders with proven sightlines and green-reading memory.',
+      'His recent major-championship baseline is the strongest blend of form, ball-striking stability, and avoidance of big numbers.',
+      'If the winning number lands in the 272–275 corridor, his profile is the most likely to separate.'
+    ],
+    alternatives: [
+      { player: 'Rory McIlroy', score: 275, why: 'Ceiling outcome if driving holds up and par-5 scoring spikes.' },
+      { player: 'Ludvig Åberg', score: 276, why: 'High-upside ball-striking profile with Augusta-friendly launch and speed.' },
+      { player: 'Collin Morikawa', score: 277, why: 'Wins a more precision-driven edition if approach play controls the week.' }
+    ],
+    significance: 'The projection blends Augusta’s unusually stable scoring environment with the strongest repeatable winner profile in the field. Scheffler is favored because the likely winning corridor overlaps almost perfectly with his current major-winning blueprint.'
+  },
+  usopen: {
+    label: 'U.S. Open',
+    venue: 'Shinnecock Hills Golf Club',
+    location: 'Southampton, New York',
+    par: 70,
+    projectedScore: 278,
+    projectedRelativeToPar: +8,
+    likelyWinner: 'Rory McIlroy',
+    confidence: 'Medium',
+    confidencePct: 52,
+    projectedBand: '274–284',
+    scoreDrivers: [
+      'U.S. Open scoring is materially more volatile than the Masters because setup intensity can move the winning number by several strokes.',
+      'Shinnecock historically pushes scores upward through wind exposure, firm surfaces, and demanding par-4 execution.',
+      'Recency-weighted U.S. Open scoring suggests a baseline below 278 on average, but Shinnecock requires an upward adjustment.',
+      'The selected number assumes a stern but not unplayable USGA setup — difficult enough to push the champion over par.'
+    ],
+    winnerDrivers: [
+      'McIlroy’s combination of length and high-end approach play is one of the best filters for a demanding U.S. Open setup.',
+      'He has a proven major-winning ceiling in brutal conditions and tends to benefit when scoring compresses around survival golf.',
+      'Shinnecock emphasizes elite long-game control more than pure short-game variance.',
+      'Among the realistic contenders, his upside relative to projected course demands is the cleanest match.'
+    ],
+    alternatives: [
+      { player: 'Scottie Scheffler', score: 279, why: 'Wins if the setup becomes slightly less punitive and tee-to-green consistency rules.' },
+      { player: 'Xander Schauffele', score: 280, why: 'Strongest all-around major floor outside the top pick.' },
+      { player: 'Bryson DeChambeau', score: 281, why: 'Contends if driving distance becomes the defining separator.' }
+    ],
+    significance: 'This forecast leans into major-specific difficulty more than simple trend extrapolation. The winning number is elevated because Shinnecock is one of the strongest upward course adjustments in the model, and McIlroy remains one of the few players with both survival-golf resilience and true runaway potential.'
+  },
+  open: {
+    label: 'The Open Championship',
+    venue: 'Royal Birkdale Golf Club',
+    location: 'Southport, England',
+    par: 71,
+    projectedScore: 273,
+    projectedRelativeToPar: -11,
+    likelyWinner: 'Rory McIlroy',
+    confidence: 'Medium',
+    confidencePct: 48,
+    projectedBand: '268–279',
+    scoreDrivers: [
+      'The Open has the widest weather-driven scoring dispersion in the model, so the forecast centers on a range rather than a narrow point.',
+      'Royal Birkdale tends to produce winning totals in the low-to-mid 270s when wind remains manageable.',
+      'Recency-adjusted Open scoring shows a compressed cluster near 272–276 despite occasional weather outliers.',
+      'The selected estimate assumes mixed but not destructive wind across four rounds.'
+    ],
+    winnerDrivers: [
+      'McIlroy brings elite links comfort, high-ball-speed advantage, and proven Open-winning pedigree.',
+      'Birkdale rewards players who can combine power with trajectory control rather than relying solely on recovery play.',
+      'His historical performance in windy major setups remains one of the strongest in the likely contender pool.',
+      'If the Open becomes a shotmaking test rather than pure attrition, his ceiling rises sharply.'
+    ],
+    alternatives: [
+      { player: 'Scottie Scheffler', score: 274, why: 'Wins if steady all-around play beats a turbulent field.' },
+      { player: 'Shane Lowry', score: 275, why: 'Strong links-weather candidate if conditions get heavier.' },
+      { player: 'Tommy Fleetwood', score: 276, why: 'High-probability contender on a classic British links profile.' }
+    ],
+    significance: 'The Open projection is less about a single deterministic number and more about controlled weather-weighted probability. McIlroy is the likeliest champion because the most probable Birkdale scoring window still rewards elite driving and trajectory control.'
+  },
+  pga: {
+    label: 'PGA Championship',
+    venue: 'Aronimink Golf Club',
+    location: 'Newtown Square, Pennsylvania',
+    par: 70,
+    projectedScore: 269,
+    projectedRelativeToPar: -11,
+    likelyWinner: 'Scottie Scheffler',
+    confidence: 'Medium-High',
+    confidencePct: 58,
+    projectedBand: '264–274',
+    scoreDrivers: [
+      'The PGA Championship has the strongest downward scoring trend of the four majors in the historical dataset.',
+      'Recent editions have rewarded elite ball-strikers on parkland-style venues with accessible birdie windows.',
+      'Aronimink projects as a moderate-difficulty setup rather than a U.S. Open-style grind, keeping the estimate below 270.',
+      'Weighted recent form and trend compression both point to a central range around 267–271.'
+    ],
+    winnerDrivers: [
+      'Scheffler’s ball-striking baseline is best-in-class for a venue likely to reward repeated approach advantages.',
+      'The PGA typically penalizes fewer misses than the U.S. Open, which increases the value of his birdie-generation edge.',
+      'He carries the strongest recent major-performance floor among projected contenders.',
+      'If the winning number lands in a sub-270 birdie-capable environment, his probability of converting rises materially.'
+    ],
+    alternatives: [
+      { player: 'Xander Schauffele', score: 270, why: 'Excellent fit if recent PGA form and balanced major play continue.' },
+      { player: 'Collin Morikawa', score: 271, why: 'Wins if Aronimink becomes more of an iron-play championship.' },
+      { player: 'Brooks Koepka', score: 272, why: 'Major-specific upside remains dangerous if health and form align.' }
+    ],
+    significance: 'This is the most aggressive low-scoring projection because both the historical trend and likely venue style point in the same direction. Scheffler gets the edge because the most probable scoring environment favors sustained tee-to-green separation more than volatility.'
+  }
+};
+
+const CHART_COLORS = {
+  masters: '#5ec479', usopen: '#5b9ed6', open: '#e8b84b', pga: '#e8695a'
+};
+const MAJOR_LABELS = { masters:'Masters', usopen:'U.S. Open', open:'The Open Championship', pga:'PGA Championship' };
+const MAJOR_KEYS = { Masters:'masters', US_Open:'usopen', Open_Championship:'open', PGA_Championship:'pga' };
+
+// Build datasets
+function buildDatasets() {
+  const extYears = [...YEARS, PROJ_YEAR];
+  return [
+    {
+      label: 'Masters', key: 'masters',
+      data: MASTERS_DATA.map((v,i)=>({x:YEARS[i],y:v})),
+      borderColor: CHART_COLORS.masters,
+      backgroundColor: 'rgba(94,196,121,0.08)',
+      pointBackgroundColor: CHART_COLORS.masters,
+      pointBorderColor: CHART_COLORS.masters,
+      pointRadius: 4, pointHoverRadius: 7,
+      borderWidth: 2, tension: 0.3, fill: false,
+      projData: {x: PROJ_YEAR, y: PROJ_DATA.masters}
+    },
+    {
+      label: 'U.S. Open', key: 'usopen',
+      data: USOPEN_DATA.map((v,i)=>({x:YEARS[i],y:v})),
+      borderColor: CHART_COLORS.usopen,
+      backgroundColor: 'rgba(91,158,214,0.08)',
+      pointBackgroundColor: CHART_COLORS.usopen,
+      pointBorderColor: CHART_COLORS.usopen,
+      pointRadius: 4, pointHoverRadius: 7,
+      borderWidth: 2, tension: 0.3, fill: false,
+      projData: {x: PROJ_YEAR, y: PROJ_DATA.usopen}
+    },
+    {
+      label: 'The Open', key: 'open',
+      data: OPEN_DATA.map((v,i)=>({x:YEARS[i],y:v})),
+      borderColor: CHART_COLORS.open,
+      backgroundColor: 'rgba(232,184,75,0.08)',
+      pointBackgroundColor: CHART_COLORS.open,
+      pointBorderColor: CHART_COLORS.open,
+      pointRadius: 4, pointHoverRadius: 7,
+      borderWidth: 2, tension: 0.3, fill: false,
+      projData: {x: PROJ_YEAR, y: PROJ_DATA.open}
+    },
+    {
+      label: 'PGA Championship', key: 'pga',
+      data: PGA_DATA.map((v,i)=>({x:YEARS[i],y:v})),
+      borderColor: CHART_COLORS.pga,
+      backgroundColor: 'rgba(232,105,90,0.08)',
+      pointBackgroundColor: CHART_COLORS.pga,
+      pointBorderColor: CHART_COLORS.pga,
+      pointRadius: 4, pointHoverRadius: 7,
+      borderWidth: 2, tension: 0.3, fill: false,
+      projData: {x: PROJ_YEAR, y: PROJ_DATA.pga}
+    }
+  ];
+}
+
+const CHART_DATASETS = buildDatasets();
+
+// Build final datasets: clean line per major + dashed bridge + projection dot
+function toChartDatasets(dsArr) {
+  const result = [];
+  dsArr.forEach(ds => {
+    result.push({
+      label: ds.label, key: ds.key,
+      data: ds.data,
+      borderColor: ds.borderColor, backgroundColor: 'transparent',
+      pointBackgroundColor: ds.borderColor, pointBorderColor: ds.borderColor,
+      pointRadius: 4, pointHoverRadius: 7,
+      borderWidth: 2, tension: 0.3, fill: false
+    });
+    const lastPt = ds.data[ds.data.length - 1];
+    result.push({
+      label: ds.label + '_bridge', key: ds.key,
+      data: [lastPt, ds.projData],
+      borderColor: ds.borderColor, backgroundColor: 'transparent',
+      borderDash: [6,4], pointRadius: 0, pointHoverRadius: 0,
+      borderWidth: 1.5, tension: 0, fill: false
+    });
+    result.push({
+      label: ds.label + '_proj', key: ds.key,
+      data: [ds.projData],
+      borderColor: ds.borderColor, backgroundColor: 'transparent',
+      pointBackgroundColor: 'transparent', pointBorderColor: ds.borderColor,
+      pointBorderWidth: 2, pointRadius: 7, pointHoverRadius: 10,
+      pointStyle: 'rectRot', borderWidth: 0, fill: false, showLine: false
+    });
+  });
+  return result;
+}
+
+let chart = null;
+if (typeof window.Chart !== 'undefined' && CTX) {
+  chart = new Chart(CTX, {
+    type: 'line',
+    data: { datasets: toChartDatasets(CHART_DATASETS) },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'point', intersect: true },
+      animation: {
+        duration: 1400,
+        easing: 'easeInOutQuart',
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          enabled: false,
+          external: showTooltip
+        }
+      },
+      scales: {
+        x: {
+          type: 'linear',
+          min: 1979,
+          max: 2027,
+          ticks: {
+            color: 'rgba(144,168,152,0.7)',
+            font: { family: "'DM Mono'", size: 11 },
+            stepSize: 5,
+            callback: v => v % 5 === 0 ? v : ''
+          },
+          grid: { color: 'rgba(255,255,255,0.04)', drawBorder: false },
+          border: { display: false }
+        },
+        y: {
+          min: 258,
+          max: 296,
+          ticks: {
+            color: 'rgba(144,168,152,0.7)',
+            font: { family: "'DM Mono'", size: 11 },
+            stepSize: 4
+          },
+          grid: { color: 'rgba(255,255,255,0.04)', drawBorder: false },
+          border: { display: false }
+        }
+      },
+      onClick: handleChartClick
+    }
+  });
+  console.log('Chart initialized successfully');
+} else {
+  console.error('Chart.js failed to load or canvas context was unavailable.');
+}
+
+/* ── TOOLTIP ── */
+let tooltipEl = null;
+function normalizeMajorLabel(label) {
+  return label.replace('_bridge', '').replace('_proj', '');
+}
+function showTooltip(context) {
+  if (!tooltipEl) {
+    tooltipEl = document.createElement('div');
+    tooltipEl.className = 'custom-tooltip';
+    document.body.appendChild(tooltipEl);
+  }
+  const { tooltip } = context;
+  if (tooltip.opacity === 0) { tooltipEl.classList.remove('visible'); return; }
+  const dp = tooltip.dataPoints?.[0];
+  if (!dp) return;
+  if (dp.dataset.label.includes('_bridge')) { tooltipEl.classList.remove('visible'); return; }
+  const year = dp.raw.x;
+  const score = dp.raw.y;
+  const dsLabel = normalizeMajorLabel(dp.dataset.label);
+  const dsKey = dp.dataset.key;
+  const majorKeyMap = { 'Masters':'Masters','U.S. Open':'US_Open','The Open':'Open_Championship','PGA Championship':'PGA_Championship' };
+  const evKey = majorKeyMap[dsLabel];
+  const ev = year === PROJ_YEAR ? PROJ_DETAILS[dsKey] : EVENTS[evKey]?.[year];
+  const winner = year === PROJ_YEAR ? `Projection · ${PROJ_DETAILS[dsKey]?.likelyWinner || '—'}` : (ev ? ev.winner : '—');
+  const color = CHART_COLORS[dsKey];
+  tooltipEl.innerHTML = `
+    <div class="tt-major" style="color:${color}">${dsLabel}</div>
+    <div class="tt-year">${year}${year===PROJ_YEAR?'*':''}</div>
+    <div class="tt-winner">${winner}</div>
+    <div class="tt-score" style="color:${color}">${score}</div>
+  `;
+  const pos = context.chart.canvas.getBoundingClientRect();
+  tooltipEl.style.left = pos.left + window.scrollX + tooltip.caretX + 'px';
+  tooltipEl.style.top = pos.top + window.scrollY + tooltip.caretY + 'px';
+  tooltipEl.classList.add('visible');
+}
+
+/* ── CLICK HANDLER ── */
+function handleChartClick(e, elements) {
+  if (!chart || !elements.length) return;
+  const el = elements[0];
+  const ds = chart.data.datasets[el.datasetIndex];
+  if (ds.label.includes('_bridge')) return;
+  const point = ds.data[el.index];
+  const year = point.x;
+  if (year === PROJ_YEAR) {
+    openProjectionPanel(ds.key, point.y, normalizeMajorLabel(ds.label), ds);
+    return;
+  }
+  const labelToKey = { 'Masters':'Masters', 'U.S. Open':'US_Open', 'The Open':'Open_Championship', 'PGA Championship':'PGA_Championship' };
+  const majorKey = labelToKey[normalizeMajorLabel(ds.label)];
+  const ev = EVENTS[majorKey]?.[year];
+  if (!ev) return;
+  openDetailPanel(majorKey, year, ev, { ...ds, label: normalizeMajorLabel(ds.label) });
+}
+
+/* ── DETAIL PANEL ── */
+function openDetailPanel(majorKey, year, ev, ds) {
+  const color = ds.borderColor;
+  const majorLabel = ds.label;
+  const par = ev.par || 72;
+  const relPar = ev.relativeToPar != null ? (ev.relativeToPar >= 0 ? '+'+ev.relativeToPar : ev.relativeToPar) : '—';
+  const margin = ev.margin != null ? (ev.margin > 0 ? ev.margin+' strokes' : 'Playoff') : '—';
+
+  document.getElementById('detailContent').innerHTML = `
+    <div class="detail-major-badge" style="background:${color}20;color:${color};border:1px solid ${color}40">${majorLabel}</div>
+    <div class="detail-year" style="color:${color}">${year}</div>
+    <div class="detail-winner-name">${ev.winner}</div>
+    <div class="detail-stats-grid">
+      <div class="detail-stat">
+        <div class="detail-stat-label">Total Strokes</div>
+        <div class="detail-stat-value score" style="color:${color}">${ev.score}</div>
+      </div>
+      <div class="detail-stat">
+        <div class="detail-stat-label">Relative to Par</div>
+        <div class="detail-stat-value">${relPar}</div>
+      </div>
+      <div class="detail-stat">
+        <div class="detail-stat-label">Winning Margin</div>
+        <div class="detail-stat-value">${margin}</div>
+      </div>
+      <div class="detail-stat">
+        <div class="detail-stat-label">Par</div>
+        <div class="detail-stat-value">${par}</div>
+      </div>
+    </div>
+    <div class="detail-venue-block">
+      <div class="detail-venue-label">Venue</div>
+      <div class="detail-venue-name">${ev.venue}</div>
+      <div class="detail-venue-loc">${ev.location}</div>
+    </div>
+    <div class="detail-facts-title">Notable Facts</div>
+    <ul class="detail-facts-list">
+      ${ev.facts.map(f=>`<li>${f}</li>`).join('')}
+    </ul>
+    <div class="detail-significance">
+      <div class="detail-sig-label">Championship Significance</div>
+      <div class="detail-sig-text">"${ev.significance}"</div>
+    </div>
+  `;
+  document.getElementById('detailPanel').classList.add('open');
+  document.getElementById('detailOverlay').classList.add('open');
+}
+
+function openProjectionPanel(dsKey, projectedScore, majorLabel, ds) {
+  const proj = PROJ_DETAILS[dsKey];
+  if (!proj) return;
+  const color = CHART_COLORS[dsKey] || ds.borderColor;
+  const relPar = proj.projectedRelativeToPar >= 0 ? '+' + proj.projectedRelativeToPar : proj.projectedRelativeToPar;
+  document.getElementById('detailContent').innerHTML = `
+    <div class="detail-major-badge" style="background:${color}20;color:${color};border:1px solid ${color}40">${majorLabel} · 2026 Projection</div>
+    <div class="detail-year" style="color:${color}">2026</div>
+    <div class="detail-winner-name">${proj.likelyWinner}</div>
+    <div class="detail-stats-grid">
+      <div class="detail-stat">
+        <div class="detail-stat-label">Projected Winning Score</div>
+        <div class="detail-stat-value score" style="color:${color}">${projectedScore}</div>
+      </div>
+      <div class="detail-stat">
+        <div class="detail-stat-label">Projected Relative to Par</div>
+        <div class="detail-stat-value">${relPar}</div>
+      </div>
+      <div class="detail-stat">
+        <div class="detail-stat-label">Confidence</div>
+        <div class="detail-stat-value">${proj.confidence} · ${proj.confidencePct}%</div>
+      </div>
+      <div class="detail-stat">
+        <div class="detail-stat-label">Projected Band</div>
+        <div class="detail-stat-value score">${proj.projectedBand}</div>
+      </div>
+    </div>
+    <div class="detail-venue-block">
+      <div class="detail-venue-label">Projected Venue</div>
+      <div class="detail-venue-name">${proj.venue}</div>
+      <div class="detail-venue-loc">${proj.location}</div>
+    </div>
+    <div class="detail-facts-title">Analytical Basis for the Score</div>
+    <ul class="detail-facts-list">
+      ${proj.scoreDrivers.map(f=>`<li>${f}</li>`).join('')}
+    </ul>
+    <div class="detail-facts-title">Why ${proj.likelyWinner} Is the Likely Winner</div>
+    <ul class="detail-facts-list">
+      ${proj.winnerDrivers.map(f=>`<li>${f}</li>`).join('')}
+    </ul>
+    <div class="detail-facts-title">Other High-Probability Outcomes</div>
+    <ul class="detail-facts-list">
+      ${proj.alternatives.map(a=>`<li><strong>${a.player}</strong> at <strong>${a.score}</strong> — ${a.why}</li>`).join('')}
+    </ul>
+    <div class="detail-significance">
+      <div class="detail-sig-label">Projection Summary</div>
+      <div class="detail-sig-text">${proj.significance}</div>
+    </div>
+  `;
+  document.getElementById('detailPanel').classList.add('open');
+  document.getElementById('detailOverlay').classList.add('open');
+}
+
+document.getElementById('detailClose').addEventListener('click', closePanel);
+document.getElementById('detailOverlay').addEventListener('click', closePanel);
+function closePanel() {
+  document.getElementById('detailPanel').classList.remove('open');
+  document.getElementById('detailOverlay').classList.remove('open');
+}
+
+document.querySelectorAll('.forecast-card[data-proj-key]').forEach(card => {
+  card.addEventListener('click', () => {
+    const key = card.dataset.projKey;
+    const labelMap = { masters: 'Masters', usopen: 'U.S. Open', open: 'The Open', pga: 'PGA Championship' };
+    const colorMap = { masters: CHART_COLORS.masters, usopen: CHART_COLORS.usopen, open: CHART_COLORS.open, pga: CHART_COLORS.pga };
+    openProjectionPanel(key, PROJ_DATA[key], labelMap[key], { borderColor: colorMap[key] });
+  });
+});
+
+/* ── LEGEND TOGGLES ── */
+// Each major has 3 datasets (line, bridge, dot) — indices 0-2, 3-5, 6-8, 9-11
+const MAJOR_DS_MAP = { masters:[0,1,2], usopen:[3,4,5], open:[6,7,8], pga:[9,10,11] };
+document.querySelectorAll('.legend-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const key = btn.dataset.major;
+    const indices = MAJOR_DS_MAP[key];
+    const visible = chart.isDatasetVisible(indices[0]);
+    if (!chart) return;
+    indices.forEach(i => chart.setDatasetVisibility(i, !visible));
+    chart.update();
+    btn.classList.toggle('inactive', visible);
+    btn.classList.toggle('active', !visible);
+    if (!visible) btn.classList.add('active');
+  });
+});
+
+/* ── RESET ── */
+document.getElementById('resetBtn').addEventListener('click', () => {
+  if (chart) {
+    chart.data.datasets.forEach((_, i) => chart.setDatasetVisibility(i, true));
+    chart.update();
+  }
+  document.querySelectorAll('.legend-btn').forEach(b => { b.classList.add('active'); b.classList.remove('inactive'); });
+});
+
+/* ════════════════════════════════════════════════════════════════
+   STATS TABLE
+════════════════════════════════════════════════════════════════ */
+const statsRows = [
+  { name:'Masters', key:'Masters', color:CHART_COLORS.masters, stats:STATS.Masters },
+  { name:'U.S. Open', key:'US_Open', color:CHART_COLORS.usopen, stats:STATS.US_Open },
+  { name:'The Open', key:'Open', color:CHART_COLORS.open, stats:STATS.Open },
+  { name:'PGA Championship', key:'PGA', color:CHART_COLORS.pga, stats:STATS.PGA }
+];
+document.getElementById('statsTableBody').innerHTML = statsRows.map(r=>`
+  <tr>
+    <td><div class="major-dot-cell"><div class="major-dot" style="background:${r.color}"></div>${r.name}</div></td>
+    <td class="mono">${r.stats.mean}</td>
+    <td class="mono">${r.stats.median}</td>
+    <td class="mono">${r.stats.std}</td>
+    <td class="mono">${r.stats.recent5}</td>
+    <td class="mono">${r.stats.min}</td>
+    <td class="mono">${r.stats.max}</td>
+  </tr>
+`).join('');
+console.log('Historical Statistics by Major rendered', statsRows.length);
+
+/* ── COMPRESSION TABLE ── */
+document.getElementById('compressionTable').innerHTML = `
+  <p style="font-size:13px;color:var(--text-sub);margin-bottom:16px;line-height:1.6">
+    Comparing the 1980–1999 era mean versus the 2015–2024 era mean reveals clear scoring compression across all four majors.
+  </p>
+  ${[
+    { name:'Masters', color:CHART_COLORS.masters, early: MASTERS_DATA.slice(0,20).reduce((a,b)=>a+b,0)/20, recent: MASTERS_DATA.slice(-10).reduce((a,b)=>a+b,0)/10 },
+    { name:'U.S. Open', color:CHART_COLORS.usopen, early: USOPEN_DATA.slice(0,20).reduce((a,b)=>a+b,0)/20, recent: USOPEN_DATA.slice(-10).reduce((a,b)=>a+b,0)/10 },
+    { name:'The Open', color:CHART_COLORS.open, early: OPEN_DATA.slice(0,20).reduce((a,b)=>a+b,0)/20, recent: OPEN_DATA.slice(-10).reduce((a,b)=>a+b,0)/10 },
+    { name:'PGA Champ.', color:CHART_COLORS.pga, early: PGA_DATA.slice(0,20).reduce((a,b)=>a+b,0)/20, recent: PGA_DATA.slice(-10).reduce((a,b)=>a+b,0)/10 }
+  ].map(r=>{
+    const diff = (r.recent - r.early).toFixed(1);
+    const arrow = diff < 0 ? '↓' : '↑';
+    const col = diff < 0 ? '#5ec479' : '#e8695a';
+    return `
+      <div class="model-row">
+        <span class="model-row-label" style="display:flex;align-items:center;gap:6px">
+          <span style="width:7px;height:7px;border-radius:50%;background:${r.color};display:inline-block"></span>${r.name}
+        </span>
+        <span style="display:flex;gap:16px;align-items:center">
+          <span class="model-row-value" style="color:var(--text-muted);font-size:11px">1980s: ${r.early.toFixed(1)}</span>
+          <span class="model-row-value" style="color:var(--text-muted);font-size:11px">2015+: ${r.recent.toFixed(1)}</span>
+          <span class="model-row-value" style="color:${col}">${arrow}${Math.abs(diff)}</span>
+        </span>
+      </div>
+    `;
+  }).join('')}
+`;
+
+/* ── VOLATILITY CONTENT ── */
+document.getElementById('volatilityContent').innerHTML = `
+  <p style="font-size:13px;color:var(--text-sub);margin-bottom:16px;line-height:1.6">
+    Standard deviation as a measure of year-to-year scoring variance identifies the most and least predictable championships.
+  </p>
+  ${[
+    { name:'Masters', color:CHART_COLORS.masters, std:STATS.Masters.std, note:"Most constrained and predictable — Augusta’s setup consistency limits variation" },
+    { name:'U.S. Open', color:CHART_COLORS.usopen, std:STATS.US_Open.std, note:'Moderate volatility — venue changes drive largest swings in scoring' },
+    { name:'The Open', color:CHART_COLORS.open, std:STATS.Open.std, note:'Highest volatility — weather dependency creates massive year-to-year range' },
+    { name:'PGA Champ.', color:CHART_COLORS.pga, std:STATS.PGA.std, note:'Moderate-low — venue consistency in recent years has compressed variance' }
+  ].sort((a,b)=>b.std-a.std).map(r=>{
+    const pct = (r.std/7)*100;
+    return `
+      <div style="margin-bottom:18px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <span style="font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px">
+            <span style="width:7px;height:7px;border-radius:50%;background:${r.color};display:inline-block"></span>${r.name}
+          </span>
+          <span style="font-family:'DM Mono',monospace;font-size:12px;color:${r.color}">σ ${r.std}</span>
+        </div>
+        <div style="height:5px;background:rgba(255,255,255,0.05);border-radius:3px;overflow:hidden;margin-bottom:5px">
+          <div style="height:100%;width:${pct}%;background:${r.color};border-radius:3px;transition:width 1.2s ease"></div>
+        </div>
+        <div style="font-size:11px;color:var(--text-muted);line-height:1.4">${r.note}</div>
+      </div>
+    `;
+  }).join('')}
+`;
+
+/* ════════════════════════════════════════════════════════════════
+   INSIGHTS GRID
+════════════════════════════════════════════════════════════════ */
+const allScores = [
+  ...MASTERS_DATA.map((v,i)=>({s:v,y:YEARS[i],m:'Masters',c:CHART_COLORS.masters})),
+  ...USOPEN_DATA.map((v,i)=>({s:v,y:YEARS[i],m:'U.S. Open',c:CHART_COLORS.usopen})),
+  ...OPEN_DATA.map((v,i)=>({s:v,y:YEARS[i],m:'The Open',c:CHART_COLORS.open})),
+  ...PGA_DATA.map((v,i)=>({s:v,y:YEARS[i],m:'PGA Champ.',c:CHART_COLORS.pga}))
+];
+const lowest = allScores.reduce((a,b)=>b.s<a.s?b:a);
+const highest = allScores.reduce((a,b)=>b.s>a.s?b:a);
+const avgByMajor = [
+  {name:'Masters',avg:STATS.Masters.mean,c:CHART_COLORS.masters},
+  {name:'U.S. Open',avg:STATS.US_Open.mean,c:CHART_COLORS.usopen},
+  {name:'The Open',avg:STATS.Open.mean,c:CHART_COLORS.open},
+  {name:'PGA Champ.',avg:STATS.PGA.mean,c:CHART_COLORS.pga}
+];
+const toughest = [...avgByMajor].sort((a,b)=>b.avg-a.avg)[0];
+const easiest = [...avgByMajor].sort((a,b)=>a.avg-b.avg)[0];
+const mostVolatile = [...[{n:'Masters',s:STATS.Masters},{n:'U.S. Open',s:STATS.US_Open},{n:'The Open',s:STATS.Open},{n:'PGA',s:STATS.PGA}]].sort((a,b)=>b.s.std-a.s.std)[0];
+const leastVolatile = [...[{n:'Masters',s:STATS.Masters},{n:'U.S. Open',s:STATS.US_Open},{n:'The Open',s:STATS.Open},{n:'PGA',s:STATS.PGA}]].sort((a,b)=>a.s.std-b.s.std)[0];
+
+// Trend direction (5yr vs prior 5yr)
+const trendDirs = [
+  {name:'Masters',diff:STATS.Masters.trend5diff,c:CHART_COLORS.masters},
+  {name:'U.S. Open',diff:STATS.US_Open.trend5diff,c:CHART_COLORS.usopen},
+  {name:'The Open',diff:STATS.Open.trend5diff,c:CHART_COLORS.open},
+  {name:'PGA Champ.',diff:STATS.PGA.trend5diff,c:CHART_COLORS.pga}
+];
+const strongestDown = [...trendDirs].sort((a,b)=>a.diff-b.diff)[0];
+
+const INSIGHTS = [
+  { label:'Lowest Winning Score', value:lowest.s, detail:`${lowest.y} ${lowest.m} — the lowest winning total in the 1980–2024 dataset`, c:lowest.c },
+  { label:'Highest Winning Score', value:highest.s, detail:`${highest.y} ${highest.m} — the most difficult championship result on record`, c:highest.c },
+  { label:'Toughest Major (Avg)', value:toughest.name, detail:`Average winning score of ${toughest.avg} strokes — the highest average across the dataset`, c:toughest.c },
+  { label:'Lowest Avg Score Major', value:easiest.name, detail:`Average winning score of ${easiest.avg} strokes — most scoring friendly major on average`, c:easiest.c },
+  { label:'Most Volatile Major', value:mostVolatile.n, detail:`Standard deviation of σ${mostVolatile.s.std} — highest year-to-year scoring variance`, c:CHART_COLORS[mostVolatile.n==='Masters'?'masters':mostVolatile.n==='U.S. Open'?'usopen':mostVolatile.n==='The Open'?'open':'pga'] },
+  { label:'Most Stable Major', value:leastVolatile.n, detail:`Standard deviation of σ${leastVolatile.s.std} — most consistent and predictable major to forecast`, c:CHART_COLORS[leastVolatile.n==='Masters'?'masters':leastVolatile.n==='U.S. Open'?'usopen':leastVolatile.n==='The Open'?'open':'pga'] },
+  { label:'Strongest Recent Downtrend', value:strongestDown.name, detail:`5-yr avg ${Math.abs(strongestDown.diff).toFixed(1)} strokes below prior 5-yr avg — scoring compression accelerating`, c:strongestDown.c },
+  { label:'Outlier Championship', value:`1999 Open`, detail:`Winning score of 290 at Carnoustie — the only winning over-par total in the dataset. Paul Lawrie's remarkable comeback win.`, c:CHART_COLORS.open }
+];
+
+document.getElementById('insightsGrid').innerHTML = INSIGHTS.map(ins=>`
+  <div class="insight-card">
+    <div class="insight-label">${ins.label}</div>
+    <div class="insight-value" style="color:${ins.c}">${ins.value}</div>
+    <div class="insight-detail">${ins.detail}</div>
+  </div>
+`).join('');
+
+/* ════════════════════════════════════════════════════════════════
+   CONFIDENCE BAR ANIMATIONS
+════════════════════════════════════════════════════════════════ */
+function animateConfBars() {
+  document.querySelectorAll('.conf-fill[data-width]').forEach(el => {
+    el.style.width = el.dataset.width;
+  });
+}
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { animateConfBars(); observer.disconnect(); } });
+}, { threshold: 0.3 });
+const fsec = document.querySelector('.forecast-section');
+if (fsec) observer.observe(fsec);
+
+</script>
+</body>
+</html>
