@@ -191,6 +191,25 @@ section + section { border-top: 1px solid var(--border); }
 .legend-btn:hover { border-color: var(--border-bright); color: var(--text); }
 .legend-btn.inactive { opacity: 0.4; }
 .chart-actions { display: flex; gap: 10px; }
+.range-toggles { display:flex; flex-wrap:wrap; gap:10px; }
+.range-btn {
+  padding: 7px 14px;
+  border-radius: 40px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text-sub);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.range-btn:hover, .range-btn.active {
+  border-color: var(--border-bright);
+  color: var(--text);
+  background: rgba(201,163,74,0.08);
+}
+.range-btn.active { box-shadow: inset 0 0 0 1px rgba(201,163,74,0.12); }
 .btn-reset {
   padding: 7px 16px;
   border-radius: 40px;
@@ -809,11 +828,17 @@ footer {
   .detail-stats-grid { grid-template-columns: 1fr; }
   .forecast-grid { grid-template-columns: 1fr; }
   .insights-grid { grid-template-columns: 1fr 1fr; }
-  .chart-controls { flex-direction: column; align-items: flex-start; }
+  .chart-controls { flex-direction: column; align-items: center; justify-content: center; }
+  .legend-toggles, .range-toggles, .chart-actions { justify-content: center; width: 100%; }
+  .section-label, .section-title, .section-desc, .chart-note { text-align: center; }
+  .section-desc, .hero-subtitle, .hero-note { max-width: 100%; margin-left: auto; margin-right: auto; }
+  .chart-wrapper { width: 100%; margin: 0 auto; padding: 20px 14px 18px; height: 360px; }
   .model-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 460px) {
   .insights-grid { grid-template-columns: 1fr; }
+  .chart-wrapper { height: 320px; }
+  .range-btn, .legend-btn, .btn-reset { width: 100%; justify-content: center; }
 }
 
 /* line draw animation */
@@ -826,7 +851,7 @@ footer {
 <header class="hero">
   <div class="hero-eyebrow">Golf's Four Majors · Historical Analysis</div>
   <h1>Major Championship<br><em>Winning Scores</em></h1>
-  <p class="hero-subtitle">Winning total strokes across golf's four majors from 1980 to 2024 — four decades of championship data in one view.</p>
+  <p class="hero-subtitle">Winning total strokes across golf's four majors from 1980 to 2025 — four-plus decades of championship data in one view.</p>
   <div class="hero-divider"></div>
   <p class="hero-note">Lower scores indicate better performance. Each line represents one major championship. Click any data point for full event detail. 2026 projection engine included below.</p>
 </header>
@@ -834,7 +859,7 @@ footer {
 <!-- CHART SECTION -->
 <section class="chart-section">
   <div class="container">
-    <div class="section-label">Historical Record · 1980–2024</div>
+    <div class="section-label">Historical Record · 1980–2025</div>
     <div class="section-title">Championship Scoring Trends</div>
     <p class="section-desc">Interactive view of winning totals by year. Toggle majors, hover for details, click to explore each event.</p>
 
@@ -852,6 +877,11 @@ footer {
         <button class="legend-btn active" data-major="pga" style="border-color:rgba(232,105,90,0.35)">
           <span class="dot" style="background:var(--pga)"></span> PGA Championship
         </button>
+      </div>
+      <div class="range-toggles">
+        <button class="range-btn active" data-range="all">1980–Present</button>
+        <button class="range-btn" data-range="last10">Last 10 Years</button>
+        <button class="range-btn" data-range="last5">Last 5 Years</button>
       </div>
       <div class="chart-actions">
         <button class="btn-reset" id="resetBtn">↺ Reset View</button>
@@ -1215,7 +1245,8 @@ const RAW_DATA = [
   [2013,279,281,281,275],[2014,279,271,271,268],[2015,270,275,273,268],
   [2016,273,276,268,268],[2017,279,264,276,268],[2018,273,281,280,268],
   [2019,275,267,273,272],[2020,268,274,273,267],[2021,278,274,273,282],
-  [2022,278,274,268,283],[2023,276,270,280,271],[2024,277,274,277,263]
+  [2022,278,274,268,283],[2023,276,270,280,271],[2024,277,274,277,263],
+  [2025,277,279,267,273]
 ];
 const YEARS = RAW_DATA.map(d=>d[0]);
 const MASTERS_DATA = RAW_DATA.map(d=>d[1]);
@@ -1418,6 +1449,19 @@ const EVENTS = {
   }
 };
 
+Object.assign(EVENTS.Masters, {
+  2025:{winner:"Rory McIlroy",par:72,relativeToPar:-11,venue:"Augusta National Golf Club",location:"Augusta, Georgia",margin:0,facts:["McIlroy completed the career Grand Slam with his first green jacket","Won the Masters in a playoff after a dramatic Sunday finish","Became the sixth man to complete the modern career Grand Slam","Finished at 277, tying the second-lowest winning Masters total since 2020"],significance:"A career-defining Augusta breakthrough that completed the modern Grand Slam and re-shaped McIlroy's historical standing."}
+});
+Object.assign(EVENTS.US_Open, {
+  2025:{winner:"J.J. Spaun",par:70,relativeToPar:-1,venue:"Oakmont Country Club",location:"Oakmont, Pennsylvania",margin:2,facts:["Spaun won the 125th U.S. Open at brutally difficult Oakmont","Closed with a decisive late run and a winning total of 279","Survival golf defined the week as only one player finished under par","The victory came on one of the sternest U.S. Open setups in recent memory"],significance:"This was a classic Oakmont U.S. Open: relentless pressure, very little red on the board, and a champion who stayed patient longest."}
+});
+Object.assign(EVENTS.Open_Championship, {
+  2025:{winner:"Scottie Scheffler",par:71,relativeToPar:-17,venue:"Royal Portrush Golf Club",location:"Portrush, Northern Ireland",margin:4,facts:["Scheffler won The 153rd Open with a 267 total at Royal Portrush","His 17-under total became one of the lowest winning scores in Open history","He separated with elite iron play and control in changeable links conditions","The win added the Claret Jug to an already dominant major résumé"],significance:"Scheffler's Portrush performance was a modern links masterclass — controlled, relentless, and historically efficient."}
+});
+Object.assign(EVENTS.PGA_Championship, {
+  2025:{winner:"Scottie Scheffler",par:72,relativeToPar:-11,venue:"Quail Hollow Club",location:"Charlotte, North Carolina",margin:5,facts:["Scheffler won the 2025 PGA Championship by five shots","He finished at 273 to claim his first Wanamaker Trophy","His back-nine control over the weekend turned the tournament into a runaway","The victory reinforced his position as the game's most complete major performer"],significance:"A powerful, separation-based PGA Championship win that looked exactly like peak Scheffler — relentless tee to green and closing with authority."}
+});
+
 /* ════════════════════════════════════════════════════════════════
    STATISTICS ENGINE
 ════════════════════════════════════════════════════════════════ */
@@ -1577,6 +1621,65 @@ const CHART_COLORS = {
 const MAJOR_LABELS = { masters:'Masters', usopen:'U.S. Open', open:'The Open Championship', pga:'PGA Championship' };
 const MAJOR_KEYS = { Masters:'masters', US_Open:'usopen', Open_Championship:'open', PGA_Championship:'pga' };
 
+const LAST_HISTORICAL_YEAR = YEARS[YEARS.length - 1];
+const RANGE_OPTIONS = {
+  all: { label: '1980–Present', min: YEARS[0], max: PROJ_YEAR },
+  last10: { label: 'Last 10 Years', min: Math.max(YEARS[0], LAST_HISTORICAL_YEAR - 9), max: PROJ_YEAR },
+  last5: { label: 'Last 5 Years', min: Math.max(YEARS[0], LAST_HISTORICAL_YEAR - 4), max: PROJ_YEAR }
+};
+let currentRangeKey = 'all';
+
+function getRangeScaleLimits(rangeKey) {
+  const range = RANGE_OPTIONS[rangeKey] || RANGE_OPTIONS.all;
+  return {
+    min: Math.max(YEARS[0] - 1, range.min - 1),
+    max: PROJ_YEAR + 1,
+    stepSize: rangeKey === 'all' ? 5 : 1
+  };
+}
+
+function filterChartDatasetsForRange(dsArr, rangeKey) {
+  const range = RANGE_OPTIONS[rangeKey] || RANGE_OPTIONS.all;
+  const result = [];
+  dsArr.forEach(ds => {
+    const filteredHistoric = ds.data.filter(pt => pt.x >= range.min && pt.x <= LAST_HISTORICAL_YEAR);
+    result.push({
+      label: ds.label, key: ds.key,
+      data: filteredHistoric,
+      borderColor: ds.borderColor, backgroundColor: 'transparent',
+      pointBackgroundColor: ds.borderColor, pointBorderColor: ds.borderColor,
+      pointRadius: 4, pointHoverRadius: 7,
+      borderWidth: 2, tension: 0.3, fill: false
+    });
+    if (filteredHistoric.length) {
+      const lastPt = filteredHistoric[filteredHistoric.length - 1];
+      result.push({
+        label: ds.label + '_bridge', key: ds.key,
+        data: [lastPt, ds.projData],
+        borderColor: ds.borderColor, backgroundColor: 'transparent',
+        borderDash: [6,4], pointRadius: 0, pointHoverRadius: 0,
+        borderWidth: 1.5, tension: 0, fill: false
+      });
+    }
+    result.push({
+      label: ds.label + '_proj', key: ds.key,
+      data: [ds.projData],
+      borderColor: ds.borderColor, backgroundColor: 'transparent',
+      pointBackgroundColor: 'transparent', pointBorderColor: ds.borderColor,
+      pointBorderWidth: 2, pointRadius: 7, pointHoverRadius: 10,
+      pointStyle: 'rectRot', borderWidth: 0, fill: false, showLine: false
+    });
+  });
+  return result;
+}
+
+function updateRangeButtons(rangeKey) {
+  document.querySelectorAll('.range-btn').forEach(btn => {
+    const active = btn.dataset.range === rangeKey;
+    btn.classList.toggle('active', active);
+  });
+}
+
 // Build datasets
 function buildDatasets() {
   const extYears = [...YEARS, PROJ_YEAR];
@@ -1666,7 +1769,7 @@ let chart = null;
 if (typeof window.Chart !== 'undefined' && CTX) {
   chart = new Chart(CTX, {
     type: 'line',
-    data: { datasets: toChartDatasets(CHART_DATASETS) },
+    data: { datasets: filterChartDatasetsForRange(CHART_DATASETS, currentRangeKey) },
     options: {
       responsive: true,
       maintainAspectRatio: false,
@@ -1685,13 +1788,16 @@ if (typeof window.Chart !== 'undefined' && CTX) {
       scales: {
         x: {
           type: 'linear',
-          min: 1979,
-          max: 2027,
+          min: getRangeScaleLimits(currentRangeKey).min,
+          max: getRangeScaleLimits(currentRangeKey).max,
           ticks: {
             color: 'rgba(144,168,152,0.7)',
             font: { family: "'DM Mono'", size: 11 },
-            stepSize: 5,
-            callback: v => v % 5 === 0 ? v : ''
+            stepSize: getRangeScaleLimits(currentRangeKey).stepSize,
+            callback: v => {
+              const step = getRangeScaleLimits(currentRangeKey).stepSize;
+              return Number.isInteger(v) && ((v - YEARS[0]) % step === 0 || v === PROJ_YEAR) ? v : '';
+            }
           },
           grid: { color: 'rgba(255,255,255,0.04)', drawBorder: false },
           border: { display: false }
@@ -1892,6 +1998,22 @@ document.querySelectorAll('.forecast-card[data-proj-key]').forEach(card => {
 /* ── LEGEND TOGGLES ── */
 // Each major has 3 datasets (line, bridge, dot) — indices 0-2, 3-5, 6-8, 9-11
 const MAJOR_DS_MAP = { masters:[0,1,2], usopen:[3,4,5], open:[6,7,8], pga:[9,10,11] };
+function applyRange(rangeKey) {
+  currentRangeKey = RANGE_OPTIONS[rangeKey] ? rangeKey : 'all';
+  if (!chart) return;
+  chart.data.datasets = filterChartDatasetsForRange(CHART_DATASETS, currentRangeKey);
+  const limits = getRangeScaleLimits(currentRangeKey);
+  chart.options.scales.x.min = limits.min;
+  chart.options.scales.x.max = limits.max;
+  chart.options.scales.x.ticks.stepSize = limits.stepSize;
+  chart.update();
+  updateRangeButtons(currentRangeKey);
+}
+
+document.querySelectorAll('.range-btn').forEach(btn => {
+  btn.addEventListener('click', () => applyRange(btn.dataset.range));
+});
+
 document.querySelectorAll('.legend-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     const key = btn.dataset.major;
